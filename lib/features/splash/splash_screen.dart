@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:yiki1/core/app_storage/app_storage.dart';
+import 'package:yiki1/features/botton_navigation_bar/botton_navigation_bar_view.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/home_view.dart';
 import 'dart:async';
 import '../auth/login/view.dart';
 
@@ -13,7 +16,13 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => LoginPage()),
+        MaterialPageRoute(builder: (_) {
+          if(AppStorage.isLogged){
+            return BottonNavigationBarPage();
+          }else {
+            return LoginPage();
+          }
+        }),
       );
     });
   }

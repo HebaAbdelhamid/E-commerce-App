@@ -51,6 +51,10 @@ dependencies:
   carousel_slider:
   google_maps_flutter:
   rate:
+  dio: ^5.4.3+1
+  internet_connection_checker: ^1.0.0+1
+  get_storage: ^2.1.1
+  loading_animation_widget: ^1.2.1
 
 
 

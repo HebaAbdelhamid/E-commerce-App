@@ -1,9 +1,8 @@
-class PincodeState {
-  PincodeState init() {
-    return PincodeState();
-  }
+abstract class PinCodeState {}
+class PinCodeInitialState extends PinCodeState{}
 
-  PincodeState clone() {
-    return PincodeState();
-  }
-}
+class PinCodeLoadingState extends PinCodeState{}
+class PinCodeErrorState extends PinCodeState{}
+class PinCodeSuccessState extends PinCodeState{}
+
+

@@ -1,9 +1,6 @@
-class CategoryState {
-  CategoryState init() {
-    return CategoryState();
-  }
+class CategoryState {}
+class InitialCategoryState extends CategoryState {}
 
-  CategoryState clone() {
-    return CategoryState();
-  }
-}
+class SuccessCategoryState extends CategoryState {}
+class ErrorCategoryState extends CategoryState {}
+

@@ -1,9 +1,8 @@
-class Reset_password2State {
-  Reset_password2State init() {
-    return Reset_password2State();
-  }
+abstract class ResetPassword2State {}
+class InitialResetPassword2State extends ResetPassword2State{}
+class LoadingResetPassword2State extends ResetPassword2State{}
+class SuccessResetPassword2State extends ResetPassword2State{}
+class ErrorResetPassword2State extends ResetPassword2State{}
 
-  Reset_password2State clone() {
-    return Reset_password2State();
-  }
-}
+
+

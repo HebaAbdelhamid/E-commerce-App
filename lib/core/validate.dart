@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 
  class Validate{
   static String? vaidateEmail(value){
-
     if (value == null || value.isEmpty) {
       return 'Please enter an email'.tr();
     }

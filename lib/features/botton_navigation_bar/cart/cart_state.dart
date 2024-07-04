@@ -1,9 +1,10 @@
-class CartState {
-  CartState init() {
-    return CartState();
-  }
+abstract class CartState {}
+class InitialCartState extends CartState{}
+class SelectedState extends CartState {}
 
-  CartState clone() {
-    return CartState();
-  }
-}
+class LoadingCartState extends CartState{}
+class SuccessCartState extends CartState{}
+class ErrorCartState extends CartState{}
+
+
+

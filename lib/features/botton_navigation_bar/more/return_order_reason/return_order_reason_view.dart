@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
 import 'package:yiki1/core/styles.dart';
-import 'package:yiki1/features/botton_navigation_bar/cart/cart_view.dart';
+import 'package:yiki1/features/botton_navigation_bar/cart/component/CartItem.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/components/customHeader.dart';
 import 'package:yiki1/utils/utils.dart';
 

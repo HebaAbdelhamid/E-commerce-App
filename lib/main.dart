@@ -23,7 +23,7 @@ void main() async {
 }
 
 class YIKI extends StatelessWidget {
-  const YIKI({super.key});
+   YIKI({super.key});
 
   @override
   Widget build(BuildContext context) {

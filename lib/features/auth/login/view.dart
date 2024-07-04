@@ -118,9 +118,9 @@ class _LoginPageState extends State<LoginPage> {
                           textColor: Colors.white,
                           title: 'Login'.tr(),
                           function: () {
-                            // cubit.login();
+                            cubit.login();
                             // Utils.showSnackBar(context, cubit.login());
-                            MagicRouter.navigateTo(BottonNavigationBarPage( ));
+                            // MagicRouter.navigateTo(BottonNavigationBarPage( ));
                           },
                         ),
                         const Padding(

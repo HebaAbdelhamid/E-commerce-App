@@ -20,7 +20,10 @@ class ResetPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => ResetPasswordCubit(),
-      child: Scaffold(
+      child: BlocBuilder<ResetPasswordCubit, ResetPasswordState>(
+  builder: (context, state) {
+    final cubit=BlocProvider.of<ResetPasswordCubit>(context);
+    return Scaffold(
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 11),
@@ -58,19 +61,17 @@ class ResetPasswordPage extends StatelessWidget {
                   ),
                   hint: 'Email Address'.tr(),
                   hintColor: AppStyle.greyColor,
-                  // controller: controller.email,
+                  controller: cubit.email,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) => Validate.vaidateEmail(value),
                 ),
                 SizedBox(height: 28,),
                 CustomButton(
                   title: 'Confirm'.tr(),
-                  function: () => {
+                  function: () => cubit.reetPassword()
                     // Utils.verifyAccount2(context)
-                    MagicRouter.navigateTo(PincodePage())
-
-
-                  },
+                    // MagicRouter.navigateTo(PincodePage())
+                  ,
                     bgColor: AppStyle.primaryColor,
                   textColor: Colors.white,
 
@@ -79,7 +80,9 @@ class ResetPasswordPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      );
+  },
+),
     );
   }
 

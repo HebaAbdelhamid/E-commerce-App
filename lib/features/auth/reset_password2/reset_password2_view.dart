@@ -15,11 +15,17 @@ import 'reset_password2_cubit.dart';
 import 'reset_password2_state.dart';
 
 class ResetPassword2Page extends StatelessWidget {
+  final String email;
+  final String  pinCode;
+  ResetPassword2Page(this.email,this.pinCode);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => Reset_password2Cubit(),
-      child: Scaffold(
+      create: (BuildContext context) => Reset_password2Cubit(email: email,pinCode: pinCode),
+      child: BlocBuilder<Reset_password2Cubit, ResetPassword2State>(
+  builder: (context, state) {
+    final cubit=BlocProvider.of<Reset_password2Cubit>(context);
+    return Scaffold(
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 11),
@@ -57,7 +63,7 @@ class ResetPassword2Page extends StatelessWidget {
                   ),
                   hint: 'Password'.tr(),
                   secure: true,
-                  // controller: controller.password,
+                  controller: cubit.password,
                   keyboardType: TextInputType.visiblePassword,
                   validator: (value) =>
 
@@ -74,7 +80,7 @@ class ResetPassword2Page extends StatelessWidget {
                   ),
                   hint: 'Password Confirmation'.tr(),
                   secure: true,
-                  // controller: controller.password,
+                  controller: cubit.confirmPassword,
                   keyboardType: TextInputType.visiblePassword,
                   validator: (value) =>
 
@@ -83,10 +89,10 @@ class ResetPassword2Page extends StatelessWidget {
                 SizedBox(height: 28,),
                 CustomButton(
                   title: 'Confirm'.tr(),
-                  function: () => {
-                    MagicRouter.navigateTo(LoginPage())
+                  function: () => cubit.resetPassword()
+                    // MagicRouter.navigateTo(LoginPage())
 
-                  },bgColor: AppStyle.primaryColor,
+                  ,bgColor: AppStyle.primaryColor,
                   textColor: Colors.white,
 
                 ),
@@ -94,7 +100,9 @@ class ResetPassword2Page extends StatelessWidget {
             ),
           ),
         ),
-      )
+      );
+  },
+)
     );
   }
 
