@@ -10,6 +10,7 @@ import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/cart_state.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/component/CartItem.dart';
+import 'package:yiki1/features/botton_navigation_bar/cart/component/shopingCart.dart';
 import 'cart_cubit.dart';
 import 'complete_order/complete_order_view.dart';
 
@@ -33,9 +34,7 @@ class CartPage extends StatelessWidget {
             return Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
-              child: state is LoadingCartState
-                  ? CustomLoading()
-                  : ListView(
+              child: ListView(
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -53,70 +52,17 @@ class CartPage extends StatelessWidget {
                             SizedBox(height: 13),
                             Text(
                               "Browse your cart and complete checkout.".tr(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color(0XFFA2A2A3),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
                             ),
-                            const Divider(
+                           const Divider(
                                 color: AppStyle.primaryColor, thickness: 2),
                             const SizedBox(height: 7),
-                            ListView.separated(
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: AppStyle.primaryColor,
-                                          borderRadius: BorderRadius.circular(7)),
-                                      child: Column(
-                                        children: [
-                                          TextButton(
-                                              onPressed: () {
-                                                cubit.increament();
-                                              },
-                                              child: Text(
-                                                "+",
-                                                style: TextStyle(fontSize: 20, color: Colors.white),
-                                              )),
-                                          Text(
-                                            "${cubit.count}",
-                                            style: TextStyle(fontSize: 22, color: Colors.white),
-                                          ),
-                                          TextButton(
-                                              onPressed: () {
-                                                if(cubit.count>1)
-                                                cubit.decreament();
-                                              },
-                                              child: Text(
-                                                "-",
-                                                style: TextStyle(fontSize: 24, color: Colors.white),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10
-                                    ),
-                                    CartItem(
-                                      image: "Rectangle 12349.png",
-                                      title:
-                                          '${cubit.getCartResponse!.data!.order!.items![index].productName}',
-                                      price:
-                                          '${cubit.getCartResponse!.data!.order!.items![index].price}',
-                                      count: cubit.getCartResponse!.data!.order!.items!.length,
-                                    ),
-                                  ],
-                                );
-                              },
-                              itemCount: 2,
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  height: 17,
-                                );
-                              },
-                            ),
+                            state is LoadingCartState ||cubit.getCartResponse==null
+                                ? CustomLoading() :
+                            ShoppingCart(),
                             Divider(
                               color: Colors.grey.withOpacity(.4),
                             ),
@@ -130,7 +76,7 @@ class CartPage extends StatelessWidget {
                                   width: 13,
                                 ),
                                 Text("Buy as a gift ?".tr(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         color: Color(0xff252525),
                                         fontWeight: FontWeight.bold))
@@ -140,6 +86,7 @@ class CartPage extends StatelessWidget {
                               height: 17,
                             ),
                             CustomTextField(
+                              controller: cubit.gift,
                               multiLine: true,
                               radius: 5,
                               isNext: true,
@@ -151,9 +98,7 @@ class CartPage extends StatelessWidget {
                               ),
                               hint: 'Write message here ...'.tr(),
                               hintColor: AppStyle.greyColor,
-                              // controller: controller.email,
-                              keyboardType: TextInputType.emailAddress,
-                              // validator: (value) => Validate.vaidateEmail(value),
+                              keyboardType: TextInputType.name,
                             ),
                             const SizedBox(
                               height: 17,
@@ -185,7 +130,9 @@ class CartPage extends StatelessWidget {
                               child: CustomButton(
                                 title: "Continue to checkout",
                                 function: () {
-                                  MagicRouter.navigateTo(ChooseAddressPage());
+                                  var gift=cubit.gift.text;
+                                 print(cubit.gift.text) ;
+                                  MagicRouter.navigateTo(ChooseAddressPage(gift));
                                 },
                                 bgColor: AppStyle.primaryColor,
                                 textColor: Colors.white,

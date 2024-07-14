@@ -1,11 +1,11 @@
-class GetCartModel {
+class DeleteCartIemModel {
   bool? status;
   String? message;
   Data? data;
 
-  GetCartModel({this.status, this.message, this.data});
+  DeleteCartIemModel({this.status, this.message, this.data});
 
-  GetCartModel.fromJson(Map<String, dynamic> json) {
+  DeleteCartIemModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -24,15 +24,11 @@ class GetCartModel {
 
 class Data {
   Order? order;
-  int? wallet;
-  String? tex;
 
-  Data({this.order, this.wallet, this.tex});
+  Data({this.order});
 
   Data.fromJson(Map<String, dynamic> json) {
     order = json['order'] != null ? new Order.fromJson(json['order']) : null;
-    wallet = json['wallet'];
-    tex = json['tex'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,14 +36,13 @@ class Data {
     if (this.order != null) {
       data['order'] = this.order!.toJson();
     }
-    data['wallet'] = this.wallet;
-    data['tex'] = this.tex;
     return data;
   }
 }
 
 class Order {
   int? id;
+  Address? address;
   int? subTotal;
   String? sourceKey;
   String? source;
@@ -58,28 +53,29 @@ class Order {
   int? cashback;
   bool? dayReturns;
   int? shippingFees;
+  String? shippingMethod;
   String? pointDiscount;
+  String? paymentMethod;
   String? company;
   String? companyId;
   String? representative;
-  String? representativeId;
+  int? representativeId;
   String? saleRepresentativeId;
   String? saleRepresentative;
   String? statusKey;
   String? status;
   String? createdAt;
-  String? itemsCount;
+  int? itemsCount;
   bool? rateExists;
   int? productsCount;
   int? onePaice;
   int? tex;
   String? currency;
   List<Items>? items;
-  List<Null>? deposits;
-  List<Null>? reminders;
-  String? whatsapp;
   String? name;
   String? phone;
+  String? branch;
+  int? branchId;
   int? actualShippingFees;
   String? orderType;
   String? dateCanceled;
@@ -89,6 +85,7 @@ class Order {
 
   Order(
       {this.id,
+        this.address,
         this.subTotal,
         this.sourceKey,
         this.source,
@@ -99,7 +96,9 @@ class Order {
         this.cashback,
         this.dayReturns,
         this.shippingFees,
+        this.shippingMethod,
         this.pointDiscount,
+        this.paymentMethod,
         this.company,
         this.companyId,
         this.representative,
@@ -116,11 +115,10 @@ class Order {
         this.tex,
         this.currency,
         this.items,
-        this.deposits,
-        this.reminders,
-        this.whatsapp,
         this.name,
         this.phone,
+        this.branch,
+        this.branchId,
         this.actualShippingFees,
         this.orderType,
         this.dateCanceled,
@@ -130,6 +128,8 @@ class Order {
 
   Order.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    address =
+    json['address'] != null ? new Address.fromJson(json['address']) : null;
     subTotal = json['sub_total'];
     sourceKey = json['source_key'];
     source = json['source'];
@@ -140,12 +140,12 @@ class Order {
     cashback = json['cashback'];
     dayReturns = json['day_returns'];
     shippingFees = json['shipping_fees'];
+    shippingMethod = json['shipping_method'];
     pointDiscount = json['point_discount'];
+    paymentMethod = json['payment_method'];
     company = json['company'];
     companyId = json['company_id'];
     representative = json['representative'];
-    representativeId = json['representative_id'];
-    saleRepresentativeId = json['sale_representative_id'];
     saleRepresentative = json['sale_representative'];
     statusKey = json['status_key'];
     status = json['status'];
@@ -162,11 +162,10 @@ class Order {
         items!.add(new Items.fromJson(v));
       });
     }
-
-
-    whatsapp = json['whatsapp'];
     name = json['name'];
     phone = json['phone'];
+    branch = json['branch'];
+    branchId = json['branch_id'];
     actualShippingFees = json['actual_shipping_fees'];
     orderType = json['order_type'];
     dateCanceled = json['date_canceled'];
@@ -178,6 +177,9 @@ class Order {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    if (this.address != null) {
+      data['address'] = this.address!.toJson();
+    }
     data['sub_total'] = this.subTotal;
     data['source_key'] = this.sourceKey;
     data['source'] = this.source;
@@ -188,7 +190,9 @@ class Order {
     data['cashback'] = this.cashback;
     data['day_returns'] = this.dayReturns;
     data['shipping_fees'] = this.shippingFees;
+    data['shipping_method'] = this.shippingMethod;
     data['point_discount'] = this.pointDiscount;
+    data['payment_method'] = this.paymentMethod;
     data['company'] = this.company;
     data['company_id'] = this.companyId;
     data['representative'] = this.representative;
@@ -207,9 +211,10 @@ class Order {
     if (this.items != null) {
       data['items'] = this.items!.map((v) => v.toJson()).toList();
     }
-    data['whatsapp'] = this.whatsapp;
     data['name'] = this.name;
     data['phone'] = this.phone;
+    data['branch'] = this.branch;
+    data['branch_id'] = this.branchId;
     data['actual_shipping_fees'] = this.actualShippingFees;
     data['order_type'] = this.orderType;
     data['date_canceled'] = this.dateCanceled;
@@ -218,6 +223,112 @@ class Order {
     }
     data['grand_total_after_deposit'] = this.grandTotalAfterDeposit;
     data['deposit'] = this.deposit;
+    return data;
+  }
+}
+
+class Address {
+  int? id;
+  String? name;
+  Null? postal;
+  int? isDefault;
+  Null? nearestPlace;
+  String? address;
+  Null? kind;
+  Null? kindKey;
+  String? country;
+  int? countryId;
+  String? city;
+  int? cityId;
+  List<ShippingFees>? shippingFees;
+  Null? lat;
+  Null? lng;
+
+  Address(
+      {this.id,
+        this.name,
+        this.postal,
+        this.isDefault,
+        this.nearestPlace,
+        this.address,
+        this.kind,
+        this.kindKey,
+        this.country,
+        this.countryId,
+        this.city,
+        this.cityId,
+        this.shippingFees,
+        this.lat,
+        this.lng});
+
+  Address.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    postal = json['postal'];
+    isDefault = json['is_default'];
+    nearestPlace = json['nearest_place'];
+    address = json['address'];
+    kind = json['kind'];
+    kindKey = json['kind_key'];
+    country = json['country'];
+    countryId = json['country_id'];
+    city = json['city'];
+    cityId = json['city_id'];
+    if (json['shipping_fees'] != null) {
+      shippingFees = <ShippingFees>[];
+      json['shipping_fees'].forEach((v) {
+        shippingFees!.add(new ShippingFees.fromJson(v));
+      });
+    }
+    lat = json['lat'];
+    lng = json['lng'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['postal'] = this.postal;
+    data['is_default'] = this.isDefault;
+    data['nearest_place'] = this.nearestPlace;
+    data['address'] = this.address;
+    data['kind'] = this.kind;
+    data['kind_key'] = this.kindKey;
+    data['country'] = this.country;
+    data['country_id'] = this.countryId;
+    data['city'] = this.city;
+    data['city_id'] = this.cityId;
+    if (this.shippingFees != null) {
+      data['shipping_fees'] =
+          this.shippingFees!.map((v) => v.toJson()).toList();
+    }
+    data['lat'] = this.lat;
+    data['lng'] = this.lng;
+    return data;
+  }
+}
+
+class ShippingFees {
+  int? id;
+  int? from;
+  Null? to;
+  int? value;
+
+  ShippingFees({this.id, this.from, this.to, this.value});
+
+  ShippingFees.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    from = json['from'];
+    to = json['to'];
+    value = json['value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['from'] = this.from;
+    data['to'] = this.to;
+    data['value'] = this.value;
     return data;
   }
 }
@@ -310,6 +421,8 @@ class User {
   String? name;
   String? card;
   String? logo;
+  Null? branchCount;
+  String? companyName;
   String? userType;
   String? gender;
   String? phone;
@@ -320,13 +433,15 @@ class User {
   int? isActive;
   String? tex;
   String? createdAt;
-  List<Null>? addresses;
+  List<Addresses>? addresses;
 
   User(
       {this.id,
         this.name,
         this.card,
         this.logo,
+        this.branchCount,
+        this.companyName,
         this.userType,
         this.gender,
         this.phone,
@@ -344,6 +459,8 @@ class User {
     name = json['name'];
     card = json['card'];
     logo = json['logo'];
+    branchCount = json['branch_count'];
+    companyName = json['company_name'];
     userType = json['user_type'];
     gender = json['gender'];
     phone = json['phone'];
@@ -354,6 +471,12 @@ class User {
     isActive = json['is_active'];
     tex = json['tex'];
     createdAt = json['created_at'];
+    if (json['addresses'] != null) {
+      addresses = <Addresses>[];
+      json['addresses'].forEach((v) {
+        addresses!.add(new Addresses.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -362,6 +485,8 @@ class User {
     data['name'] = this.name;
     data['card'] = this.card;
     data['logo'] = this.logo;
+    data['branch_count'] = this.branchCount;
+    data['company_name'] = this.companyName;
     data['user_type'] = this.userType;
     data['gender'] = this.gender;
     data['phone'] = this.phone;
@@ -372,7 +497,86 @@ class User {
     data['is_active'] = this.isActive;
     data['tex'] = this.tex;
     data['created_at'] = this.createdAt;
+    if (this.addresses != null) {
+      data['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
 
+class Addresses {
+  int? id;
+  String? placeName;
+  String? kind;
+  Null? nearestPlace;
+  String? address;
+  Null? lat;
+  Null? lng;
+  int? isDefault;
+  Country? country;
+  Country? city;
+
+  Addresses(
+      {this.id,
+        this.placeName,
+        this.kind,
+        this.nearestPlace,
+        this.address,
+        this.lat,
+        this.lng,
+        this.isDefault,
+        this.country,
+        this.city});
+
+  Addresses.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    placeName = json['place_name'];
+    kind = json['kind'];
+    nearestPlace = json['nearest_place'];
+    address = json['address'];
+    lat = json['lat'];
+    lng = json['lng'];
+    isDefault = json['is_default'];
+    country =
+    json['country'] != null ? new Country.fromJson(json['country']) : null;
+    city = json['city'] != null ? new Country.fromJson(json['city']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['place_name'] = this.placeName;
+    data['kind'] = this.kind;
+    data['nearest_place'] = this.nearestPlace;
+    data['address'] = this.address;
+    data['lat'] = this.lat;
+    data['lng'] = this.lng;
+    data['is_default'] = this.isDefault;
+    if (this.country != null) {
+      data['country'] = this.country!.toJson();
+    }
+    if (this.city != null) {
+      data['city'] = this.city!.toJson();
+    }
+    return data;
+  }
+}
+
+class Country {
+  int? id;
+  String? name;
+
+  Country({this.id, this.name});
+
+  Country.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }

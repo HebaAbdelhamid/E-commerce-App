@@ -12,16 +12,17 @@ class CustomItemCard extends StatelessWidget {
     required this.image,
     required this.title,
     required this.oldPrice,
-    required this.price,
-    // this.function,
+    required this.price,  required this. id,
+    this.function,
     // required this.count
   });
 
   String image;
-  // VoidCallback? function;
+  VoidCallback? function;
   String title;
   String oldPrice;
   String price;
+  String id;
 
   // int count;
 
@@ -32,6 +33,9 @@ class CustomItemCard extends StatelessWidget {
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           final cubit = BlocProvider.of<HomeCubit>(context);
+
+          // final id=cubit.homeResponse!.data!.offers!.items![index].id;
+
           return
             SizedBox(
             width: MediaQuery.of(context).size.width * .47,
@@ -70,7 +74,7 @@ class CustomItemCard extends StatelessWidget {
                             IconButton(
                                 onPressed: () {
                                   cubit.selectedIcon_();
-                                  print(cubit.count);
+                                  // print(cubit.count);
                                 },
                                 icon: Icon(
                                   cubit.select
@@ -128,17 +132,17 @@ class CustomItemCard extends StatelessWidget {
                                       width: 29,
                                     ),
                                     onTap: () {
-                                      if (cubit.count > 1) cubit.decreament();
+                                      if (cubit.getItemCount(int.parse(id) ) > 1) cubit.decreament(int.parse(id));
                                     },
                                   ),
                                   PriceCount(
-                                    title: cubit.count.toString(),
+                                    title: cubit.getItemCount(int.parse(id)).toString(),
                                     color: Colors.white,
                                     width: 29,
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        cubit.increament();
+                                        cubit.increament(int.parse(id));
                                       },
                                       child: PriceCount(
                                           title: '+',
@@ -160,13 +164,14 @@ class CustomItemCard extends StatelessWidget {
                                   size: 15,
                                   color: Colors.white,
                                 ),
-                                onPressed: () {
-                                  cubit.addToCart(
-                                    id: cubit.homeResponse!.data!.products!.items![0].id
-                                        .toString(),
-                                  );
-                                  print("==============ttttttt>${cubit.count}");
-                                },
+                                onPressed: function
+                                  //   () {
+                                  // cubit.addToCart(
+                                  //   id: cubit.homeResponse!.data!.products!.items![0].id
+                                  //       .toString(),
+                                  // );
+                                  // print("==============ttttttt>${cubit.count}");
+                                // },
                               ),
                             ),
                           ],

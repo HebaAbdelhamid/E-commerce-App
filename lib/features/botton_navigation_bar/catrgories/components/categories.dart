@@ -20,8 +20,9 @@ print(  "${ cubit.categoryResponse!.data!.items![0].subCategories![0].descriptio
       itemBuilder: (context, index) {
         return InkWell(
             onTap: () {
+              var id=cubit.categoryResponse!.data!.items![index].id;
               print("ttttttttttttttt${cubit.categoryResponse!.data!.items![index].id}");
-              MagicRouter.navigateTo(CategoryPage());
+              MagicRouter.navigateTo(CategoryPage(id:id!));
             },
             child: CustomCategories(
               image: "assets/images/Frame 1000003077.svg",

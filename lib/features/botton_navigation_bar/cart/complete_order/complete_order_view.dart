@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yiki1/common_component/authentication_header.dart';
 import 'package:yiki1/common_component/custom_button.dart';
+import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 
 import 'complete_order_cubit.dart';
@@ -12,20 +13,47 @@ import 'component/choose_address_step.dart';
 import 'component/complete_payment.dart';
 
 class ChooseAddressPage extends StatelessWidget {
+  ChooseAddressPage(this. gift);
+  String? gift;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => CompleteOrderCubit(),
-        child: Scaffold(body: SafeArea(child:
+        create: (BuildContext context) => CompleteOrderCubit()..getAddress(),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            leading: Container(
+              width: 60,
+              height: 35,
+              decoration: BoxDecoration(
+                color: AppStyle.lightGrayColor,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: AppStyle.blackColor,
+                ),
+                onPressed:  () {
+                  MagicRouter.pop();
+
+                },
+              ),
+            ),
+            actions: [
+              SvgPicture.asset("assets/images/Group 1000000927.svg")
+            ],
+          ),
+            body: SafeArea(child:
             BlocBuilder<CompleteOrderCubit, CompleteOrderState>(
                 builder: (context, state) {
           final controller = BlocProvider.of<CompleteOrderCubit>(context);
           return ListView(children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
+              padding: EdgeInsets.only(top: 28.0, right: 20,left: 20),
               child: Column(
                 children: [
-                  CustomAuthenticationHeader(),
                   const SizedBox(
                     height: 10,
                   ),
@@ -65,15 +93,12 @@ class ChooseAddressPage extends StatelessWidget {
                     activeIndex: controller.activeStep,
                     barThickness: 4,
                   ),
-                  SizedBox(
-                    height: 13,
-                  ),
                 ],
               ),
             ),
             controller.activeStep == 0
                 ? ChooseAddressStep()
-                : CompletePayment(),
+                : CompletePayment(gift),
             SizedBox(
               height: 17,
             ),

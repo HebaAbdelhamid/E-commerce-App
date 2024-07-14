@@ -30,7 +30,8 @@ class CustomOrderInDelivered extends StatelessWidget {
                   ),
                   Text("#46679797",
                       style: TextStyle(color: AppStyle.blackColor, fontWeight: FontWeight.bold)),
-                  SizedBox(width: MediaQuery.of(context).size.width*.27,),
+                  Expanded(child: SizedBox()),
+
                   Text("2500 EGP",
                       style: TextStyle(color: AppStyle.primaryColor, fontWeight: FontWeight.bold)),
                 ],
@@ -89,7 +90,7 @@ class CustomOrderInDelivered extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: (){
-                        MagicRouter.navigateTo(ReturnOrderReasonPage());
+                        // MagicRouter.navigateTo(ReturnOrderReasonPage(cubit: null,));
                       },
                       child: Container(
 

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconic/iconic.dart';
@@ -7,6 +8,7 @@ import 'package:yiki1/common_component/BottonSheet/botton_sheet_productDetails.d
 import 'package:yiki1/common_component/pop_up.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/google_map/add_new_address/components/Countries.dart';
 
 import '../features/botton_navigation_bar/more/account_setting/account_setting_view.dart';
 
@@ -93,6 +95,14 @@ abstract class Utils {
           return ProductDetailsBottonSheet();
         });
   }
+  static void showBottonSheetCountries(context,{required Widget widget}) {
+    showModalBottomSheet(
+        // isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return widget;
+        });
+  }
 
   static void showBottonSheetChangePaaword(context) {
     showModalBottomSheet(
@@ -101,7 +111,7 @@ abstract class Utils {
           return Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: ChangePasswordBottonSheet(),
+            child: ChangePassword(),
           );
         });
   }

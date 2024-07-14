@@ -6,6 +6,7 @@ import 'package:yiki1/core/models/user_model.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/validate.dart';
 import 'package:yiki1/features/botton_navigation_bar/botton_navigation_bar_view.dart';
+import 'package:yiki1/features/google_map/add_new_address/components/Countries.dart';
 import 'package:yiki1/utils/utils.dart';
 
 import 'state.dart';
@@ -33,7 +34,9 @@ class LoginCubit extends Cubit<LoginState> {
      emit(SuccessLogInState());
      final UserModel userModel = UserModel.fromJson(data);
      AppStorage.cacheUserInfo(userModel);
-     MagicRouter.navigateTo(BottonNavigationBarPage());
+     MagicRouter.navigateAndPopAll(BottonNavigationBarPage());
+     // MagicRouter.navigateTo(Countries());
+
    }else{
      emit(ErrorLogInState());
      print(data["message"]??"Error");

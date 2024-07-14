@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconic/iconic.dart';
+import 'package:yiki1/common_component/BottonSheet/botton_sheet_productDetails.dart';
 import 'package:yiki1/common_component/Custom_home_price_count.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/home_cubit.dart';
@@ -23,10 +24,17 @@ class FlashSale extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
+              final id=cubit.homeResponse!.data!.products!.items![index].id;
               return InkWell(
                 onTap: () {
-                  Utils.showBottonSheet(context);
-                  print( cubit.homeResponse!.data!.offers!.items!.length);
+                  showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return ProductDetailsBottonSheet();
+                      });
+                  // Utils.showBottonSheet(context);
+                  print( cubit.homeResponse!.data!.products!.items!.length);
 
                 },
                 child:
@@ -55,7 +63,7 @@ class FlashSale extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(cubit.homeResponse!.data!.products!.items![index].name.toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xff252525),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -65,11 +73,14 @@ class FlashSale extends StatelessWidget {
                                   ),
                                   IconButton(
                                       onPressed: () {
-                                        cubit.selectedIcon_();
-                                        print(cubit.count);
+                                        // cubit.selectedIcon_();
+                                        cubit.selectedIndex_(index);
+                                         var itemId=cubit.homeResponse!.data!.products!.items![index].id.toString();
+                                       cubit.addToFavourite(product_id: itemId);
+                                        // print(cubit.count);
                                       },
                                       icon: Icon(
-                                        cubit.select
+                                        cubit.selectedIndex==index
                                             ? Iconic.heart_solid
                                             : Iconic.heart,
                                         color: Colors.red,
@@ -80,7 +91,7 @@ class FlashSale extends StatelessWidget {
                               RichText(
                                 text: TextSpan(
                                   children: [
-                                    TextSpan(
+                                    const TextSpan(
                                         text: "Price:",
                                         style: TextStyle(
                                             fontSize: 15,
@@ -88,22 +99,22 @@ class FlashSale extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                     TextSpan(
                                         text: cubit.homeResponse!.data!.products!.items![index].price.toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             color: Colors.grey,
                                             decoration: TextDecoration.lineThrough,
                                             fontWeight: FontWeight.bold)),
                                     TextSpan(
                                         text: cubit.homeResponse!.data!.products!.items![index].price.toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             color: AppStyle.primaryColor,
                                             fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 9,
+                              const SizedBox(
+                                height: 9
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,17 +135,18 @@ class FlashSale extends StatelessWidget {
                                             width: 29,
                                           ),
                                           onTap: () {
-                                            if (cubit.count > 1) cubit.decreament();
+                                            if (cubit.getItemCount(id!) > 1) cubit.decreament(id);
                                           },
                                         ),
                                         PriceCount(
-                                          title: cubit.count.toString(),
+                                          title: cubit.getItemCount(id!).toString(),
                                           color: Colors.white,
                                           width: 29,
                                         ),
                                         InkWell(
                                             onTap: () {
-                                              cubit.increament();
+                                              cubit.increament(id);
+                                              print(cubit.getItemCount(id).toString());
                                             },
                                             child: PriceCount(
                                                 title: '+',
@@ -160,8 +172,10 @@ class FlashSale extends StatelessWidget {
                                         cubit.addToCart(
                                           id: cubit.homeResponse!.data!.products!.items![0].id
                                               .toString(),
-                                        );
-                                        print("==============ttttttt>${cubit.count}");
+                                          count: cubit.getItemCount(id).toString(),
+                                        );print("==============ttttttt>${cubit.getItemCount(id).toString()}");
+
+
                                       },
                                     ),
                                   ),
@@ -174,27 +188,11 @@ class FlashSale extends StatelessWidget {
                     ),
                   ),
                 )
-                // CustomItemCard(
-                //   image: 'assets/images/Rectangle 12349.png',
-                //   oldPrice: cubit
-                //       .homeResponse!.data!.products!.items![index].price
-                //       .toString(),
-                //   price: cubit.homeResponse!.data!.products!.items![index]
-                //       .priceAfterDiscount
-                //       .toString(),
-                //   title: cubit.homeResponse!.data!.products!.items![index].name
-                //       .toString(),
-                //   // function: () {
-                //   //   cubit.addToCart(
-                //   //     id: cubit.homeResponse!.data!.products!.items![index].id
-                //   //         .toString(),
-                //   //   );
-                //   //   print("==============ttttttt>${cubit.count}");
-                //   // },
-                // ),
+
               );
             },
             itemCount: cubit.homeResponse!.data!.products!.items!.length,
+            // itemCount: 1,
           ),
         );
       },

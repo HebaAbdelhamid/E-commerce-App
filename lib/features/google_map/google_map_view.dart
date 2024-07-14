@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +36,9 @@ class GoogleMapPage extends StatelessWidget {
 
       create: (BuildContext context) => GoogleMapCubit(),
       child: BlocBuilder<GoogleMapCubit, GoogleMapState>(
+  builder: (context, state) {
+    final cubit=BlocProvider.of<GoogleMapCubit>(context);
+    return BlocBuilder<GoogleMapCubit, GoogleMapState>(
   builder: (context, state) {
     final cubit=BlocProvider.of<GoogleMapCubit>(context);
     return Scaffold(
@@ -168,7 +170,8 @@ class GoogleMapPage extends StatelessWidget {
               ),
               SizedBox(height: 13,),
               CustomButton(title: "Confirm".tr(), function: (){
-                MagicRouter.navigateTo(AddNewAddressPage());
+                cubit.postAddress();
+                // MagicRouter.navigateTo(AddNewAddressPage());
               }, bgColor: AppStyle.primaryColor, textColor: Colors.white)
 
 
@@ -178,6 +181,8 @@ class GoogleMapPage extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
 
       );
+  },
+);
   },
 )
     );

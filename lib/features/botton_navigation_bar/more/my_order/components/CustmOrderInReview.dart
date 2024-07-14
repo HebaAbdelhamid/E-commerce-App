@@ -26,10 +26,10 @@ class CustmOrderInReview extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
                 ),
-                Text("#46679797",
+                const Text("#46679797",
                     style: TextStyle(color: AppStyle.blackColor, fontWeight: FontWeight.bold)),
-                SizedBox(width: MediaQuery.of(context).size.width*.27,),
-                Text("2500 EGP",
+                Expanded(child: SizedBox()),
+                const Text("2500 EGP",
                     style: TextStyle(color: AppStyle.primaryColor, fontWeight: FontWeight.bold)),
               ],
             ),

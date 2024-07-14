@@ -7,6 +7,9 @@ import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 
 class RatingPage extends StatelessWidget{
+  RatingPage({this.value_, this.messsage});
+ var value_;
+var messsage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +49,10 @@ class RatingPage extends StatelessWidget{
             allowClear: true,
             initialValue: 3.5,
             readOnly: false,
-            onChange: (value) => print(value),
+            onChange: (value) {
+              value_=value;
+              print(value);
+              },
           ),
           SizedBox(
             height: 17,
@@ -63,7 +69,7 @@ class RatingPage extends StatelessWidget{
               ),
               hint: 'Write message here ...'.tr(),
               hintColor: AppStyle.greyColor,
-              // controller: controller.email,
+              controller: messsage,
               keyboardType: TextInputType.emailAddress,
               // validator: (value) => Validate.vaidateEmail(value),
             ),
@@ -76,9 +82,6 @@ class RatingPage extends StatelessWidget{
             children: [
               InkWell(
                 onTap:(){
-                  showModalBottomSheet(context: context, builder: (context){
-                    return RatingPage();
-                  });
 
                 },
                 child: Container(

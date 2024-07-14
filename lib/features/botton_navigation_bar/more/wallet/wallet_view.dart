@@ -8,13 +8,12 @@ import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/core/styles.dart';
 
 import 'wallet_cubit.dart';
-import 'wallet_state.dart';
 
 class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => WalletCubit(),
+      create: (BuildContext context) => WalletCubit()..fetch(),
       child: Scaffold(
           backgroundColor: Colors.white,
           body: Padding(

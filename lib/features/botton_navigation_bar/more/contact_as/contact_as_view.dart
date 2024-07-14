@@ -5,10 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yiki1/common_component/authentication_header.dart';
 import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
+import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/botton_navigation_bar_view.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/contact_as/contact_as_state.dart';
+import 'package:yiki1/utils/utils.dart';
 
 import 'contact_as_cubit.dart';
-import 'contact_as_state.dart';
 
 class Contact_asPage extends StatelessWidget {
   @override
@@ -16,7 +19,10 @@ class Contact_asPage extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => Contact_asCubit(),
       child: Scaffold(
-        body:Padding(
+        body:BlocBuilder<Contact_asCubit, Contact_asState>(
+  builder: (context, state) {
+    final cubit=BlocProvider.of<Contact_asCubit>(context);
+    return Padding(
           padding: EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
           child: ListView(
             children: [
@@ -59,7 +65,7 @@ class Contact_asPage extends StatelessWidget {
                 ),
                 hint: 'Name'.tr(),
                 hintColor: AppStyle.greyColor,
-                // controller: cubit.email,
+                controller: cubit.name,
                 keyboardType: TextInputType.emailAddress,
                 // validator: (value) => Validate.vaidateEmail(value),
 
@@ -75,7 +81,7 @@ class Contact_asPage extends StatelessWidget {
                 ),
                 hint: 'Email Address'.tr(),
                 hintColor: AppStyle.greyColor,
-                // controller: cubit.email,
+                controller: cubit.email,
                 keyboardType: TextInputType.emailAddress,
                 // validator: (value) => Validate.vaidateEmail(value),
 
@@ -91,7 +97,7 @@ class Contact_asPage extends StatelessWidget {
                 ),
                 hint: 'Type your message here ...'.tr(),
                 hintColor: AppStyle.greyColor,
-                // controller: cubit.email,
+                controller: cubit.message,
                 keyboardType: TextInputType.emailAddress,
                 // validator: (value) => Validate.vaidateEmail(value),
 
@@ -101,7 +107,9 @@ class Contact_asPage extends StatelessWidget {
               CustomButton(
                 title: "Send".tr(),
                 function: () {
-                  // MagicRouter.navigateTo(ChooseAddressPage());
+                  cubit.addContactUsMethods();
+                  Utils.showSnackBar("تم ارسال الرساله بنجاح ");
+                  // MagicRouter.navigateTo(BottonNavigationBarPage());
                 },
                 bgColor: AppStyle.primaryColor,
                 textColor: Colors.white,
@@ -164,7 +172,9 @@ class Contact_asPage extends StatelessWidget {
 
             ],
           ),
-        ) ,
+        );
+  },
+) ,
       )
     );
   }

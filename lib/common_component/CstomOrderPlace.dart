@@ -13,7 +13,9 @@ class CustomeOrderPlace extends StatelessWidget {
     required this.text2,
     required this.text3,
     required this.text4,
-    required this.color
+    required this.color,
+    this.function,
+    this.function_
   });
 
   String text1;
@@ -21,6 +23,9 @@ class CustomeOrderPlace extends StatelessWidget {
   String text3;
   String text4;
   Color color;
+  Function ()?function;
+  Function ()?function_;
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +90,7 @@ class CustomeOrderPlace extends StatelessWidget {
                     "assets/images/Trash Bin Trash.svg",
                     fit: BoxFit.cover,
                   ),
-                  onTap: () {},
+                  onTap: function
                 ),
                 SizedBox(
                   width: 7,
@@ -95,7 +100,7 @@ class CustomeOrderPlace extends StatelessWidget {
                     "assets/images/Vectorr5.svg",
                     fit: BoxFit.cover,
                   ),
-                  onTap: () {},
+                  onTap: function_
                 ),
                 SizedBox(
                   width: 130,

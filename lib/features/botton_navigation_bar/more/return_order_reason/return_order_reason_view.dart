@@ -3,26 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yiki1/common_component/custom_button.dart';
+import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
+import 'package:yiki1/core/models/orderModel.dart';
+import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/component/CartItem.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/components/customHeader.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/my_order/my_order_cubit.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/return_order_details/return_order_details_view.dart';
 import 'package:yiki1/utils/utils.dart';
 
 import 'return_order_reason_cubit.dart';
 import 'return_order_reason_state.dart';
 
 class ReturnOrderReasonPage extends StatelessWidget {
+  ReturnOrderReasonPage(this. item);
+  Items item;
   @override
   Widget build(BuildContext context) {
+    var quantity;
+    var productId;
+    var id;
     return BlocProvider(
-      create: (BuildContext context) => ReturnOrderReasonCubit(),
+      create: (BuildContext context) => ReturnOrderReasonCubit()..getDetailsOrders(item.id),
       child: Scaffold(
           backgroundColor: Colors.white,
           body: BlocBuilder<ReturnOrderReasonCubit, ReturnOrderReasonState>(
             builder: (context, state) {
-              final cubit = BlocProvider.of<ReturnOrderReasonCubit>(context);
-              return Padding(
+               final cubit= BlocProvider.of<ReturnOrderReasonCubit>(context);
+
+              return  state is LoadingState || cubit.orderDetailsResponse==null?CustomLoading():
+               Padding(
                 padding:
                 const EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
                 child: ListView(
@@ -42,8 +54,8 @@ class ReturnOrderReasonPage extends StatelessWidget {
                     const SizedBox(
                       height: 13,
                     ),
-                    const Text(
-                      "Order No. #1236582",
+                     Text(
+                      "Order No.   #${item.id}",
                       style: TextStyle(
                           color: Color(0XFFA2A2A3),
                           fontWeight: FontWeight.bold,
@@ -74,15 +86,17 @@ class ReturnOrderReasonPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
-                                const Text("#46679797",
+                                 Text("#${item.id}",
                                     style: TextStyle(
                                         color: AppStyle.blackColor,
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      .27,
+                                Expanded(
+                                  child: SizedBox(
+                                    // width: MediaQuery.of(context).size.width *
+                                    //     .27,
+                                  ),
                                 ),
-                                const Text("2500 EGP",
+                                 Text("${item.grandTotalAfterDeposit.toString()} EGP",
                                     style: TextStyle(
                                         color: AppStyle.primaryColor,
                                         fontWeight: FontWeight.bold)),
@@ -97,7 +111,7 @@ class ReturnOrderReasonPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
-                                const Text(" Delivered",
+                                 Text(" ${item.status}",
                                     style: TextStyle(
                                         color: Colors.green,
                                         fontWeight: FontWeight.bold)),
@@ -108,7 +122,7 @@ class ReturnOrderReasonPage extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              "Sunday , 12 Nov 2023  ",
+                              "${item.date}  ",
                               style: TextStyle(
                                   color: Colors.grey.withOpacity(.9),
                                   fontWeight: FontWeight.bold,
@@ -131,22 +145,93 @@ class ReturnOrderReasonPage extends StatelessWidget {
                     const SizedBox(
                       height: 13,
                     ),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return CartItem(
-                          image: "Rectangle 12349.png",
-                          title: "keratin Serum",
-                          price: "360.00",
-                          count: 2,
-                        );
-                      },
-                      itemCount: 2,
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 17,
-                        );
-                      },
+                    // SizedBox(
+                    //   height: 150,
+                    //   child: ListView.separated(
+                    //     shrinkWrap: true,
+                    //     itemBuilder: (context, index) {
+                    //       return CartItem(
+                    //         image: "Rectangle 12349.png",
+                    //         title: "${cubit.orderDetailsResponse!.data!.items![index].productName??""}",
+                    //         price: "${cubit.orderDetailsResponse!.data!.items![index].price??""}",
+                    //         count: 9,
+                    //         id: 1,
+                    //       );
+                    //     },
+                    //     itemCount: cubit.orderDetailsResponse!.data!.items!.length??1,
+                    //     separatorBuilder: (context, index) {
+                    //       return const SizedBox(
+                    //         height: 17,
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height*.2,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          var itemId =cubit.orderDetailsResponse!.data!.items![index].id;
+                           quantity=cubit.orderDetailsResponse!.data!.items![index].quantity;
+                           productId=cubit.orderDetailsResponse!.data!.items![index].productId;
+                           id=cubit.orderDetailsResponse!.data!.items![index].id;
+                          print(cubit.orderDetailsResponse!.data!.items![index].productId);
+                          print(cubit.orderDetailsResponse!.data!.items![index].id);
+                           return Row(
+                            children: [
+                              Container(
+                                width:60,
+                                height: 129,
+                                decoration: BoxDecoration(
+                                    color: AppStyle.primaryColor,
+                                    borderRadius: BorderRadius.circular(7)),
+                                child: Column(
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          if(cubit.getItemCount(itemId! )< cubit.orderDetailsResponse!.data!.items![index].quantity!.toInt())
+                                          cubit.increament(itemId);
+
+                                        },
+                                        child: const Text(
+                                          "+",
+                                          style: TextStyle(fontSize: 20, color: Colors.white),
+                                        )),
+                                    Text(
+                                      cubit.getItemCount(itemId! ).toString(),
+                                      style: TextStyle(fontSize: 22, color: Colors.white),
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          if(cubit.getItemCount(itemId )>1)
+                                            cubit.decreament(itemId);
+
+                                        },
+                                        child: const Text(
+                                          "-",
+                                          style: TextStyle(fontSize: 24, color: Colors.white),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                  width: 10
+                              ),
+                              CartItem(
+                                  image: "Rectangle 12349.png",
+                                  title: "${cubit.orderDetailsResponse!.data!.items![index].productName??""}",
+                                  price: "${cubit.orderDetailsResponse!.data!.items![index].price??""}",
+                                  count: 9,
+                                  id: 1,
+                                ),]);
+                        },
+                        itemCount:1,
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 17,
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: 13,
@@ -159,7 +244,7 @@ class ReturnOrderReasonPage extends StatelessWidget {
                     ),
                      Text(
                       "Return Reason"..tr(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: AppStyle.blackColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
@@ -177,9 +262,8 @@ class ReturnOrderReasonPage extends StatelessWidget {
                       ),
                       hint: 'Mention the return reason'.tr(),
                       hintColor: AppStyle.greyColor,
-                      // controller: controller.email,
+                      controller: cubit.reason,
                       keyboardType: TextInputType.emailAddress,
-                      // validator: (value) => Validate.vaidateEmail(value),
                     ),
 
                    const  SizedBox(
@@ -193,7 +277,7 @@ class ReturnOrderReasonPage extends StatelessWidget {
                     ),
                      Text(
                       "Attach Image(s)".tr(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: AppStyle.blackColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
@@ -222,24 +306,18 @@ class ReturnOrderReasonPage extends StatelessWidget {
                     CustomButton(
                       title: "Return ".tr(),
                       function: () {
-Utils.returnOrder(context);                      },
+                        // print(cubit.orderDetailsResponse!.data!.items![index].quantity);
+                        // print(cubit.orderDetailsResponse!.data!.items![index].productId);
+                        // print(cubit.orderDetailsResponse!.data!.items![index].id);
+                        cubit.addReturnOrder(idOrder: item.id,idItem:id ,idProduct:productId ,quantity:quantity );
+Utils.returnOrder(context);
+// MagicRouter.navigateTo(ReturnOrderDetailsPage());
+
+},
                       bgColor: AppStyle.primaryColor,
                       textColor: Colors.white,
                     ),
-                    // SizedBox(
-                    //   height: MediaQuery.of(context).size.height*.15,
-                    //   child: ListView.separated(
-                    //       scrollDirection: Axis.horizontal,
-                    //       itemBuilder: (context,index){
-                    //         return Container(
-                    //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(7)),
-                    //           child: Image.asset("assets/images/image11.png",width: MediaQuery.of(context).size.width*.4,fit: BoxFit.cover,),
-                    //
-                    //         );
-                    //       }, separatorBuilder: (context,index){
-                    //     return SizedBox(width: 7,);
-                    //   }, itemCount: 7),
-                    // )
+
 
 
                   ],

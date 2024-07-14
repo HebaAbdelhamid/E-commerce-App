@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:yiki1/features/auth/login/view.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/home_cubit.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/home_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/contact_as/contact_as_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/more_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/my_order/my_order_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/order%20_details/order%20_details_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/return_orders/return_orders_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/shared_applicaton/shared_applicaton_view.dart';
+import 'package:yiki1/features/google_map/add_new_address/add_new_address_cubit.dart';
+import 'package:yiki1/features/google_map/add_new_address/add_new_address_view.dart';
 import 'package:yiki1/features/splash/splash_screen.dart';
 
 void main() async {
@@ -23,7 +28,7 @@ void main() async {
 }
 
 class YIKI extends StatelessWidget {
-   YIKI({super.key});
+  YIKI({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,17 @@ class YIKI extends StatelessWidget {
       title: 'YIKI',
       onGenerateRoute: onGenerateRoute,
       navigatorKey: navigatorKey,
-      home: SplashScreen(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (BuildContext context) => AddNewAddressCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => HomeCubit(),
+          )
+        ],
+        child: LoginPage(),
+      ),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

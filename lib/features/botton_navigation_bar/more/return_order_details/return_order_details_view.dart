@@ -4,26 +4,38 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yiki1/common_component/BottonSheet/RatingPage.dart';
 import 'package:yiki1/common_component/CartDetails.dart';
+import 'package:yiki1/common_component/custom_loading.dart';
+import 'package:yiki1/core/models/orderModel.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/components/customHeader.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/order%20_details/components/productItem.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/order_tracking/order_tracking_view.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/return_order_reason/return_order_reason_cubit.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/return_orders/return_orders_cubit.dart';
 
 import 'return_order_details_cubit.dart';
 import 'return_order_details_state.dart';
 
 class ReturnOrderDetailsPage extends StatelessWidget {
+  ReturnOrderDetailsPage({required this.cubit, required this.index,
+    required this.itemId
+  });
+  ReturnOrdersCubit cubit;
+  int index;
+  var itemId;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ReturnOrderDetailsCubit(),
+      create: (BuildContext context) => ReturnOrderDetailsCubit()..getDetailsOrders(itemId??""),
       child:Scaffold(
           backgroundColor: Colors.white,
           body: BlocBuilder<ReturnOrderDetailsCubit, ReturnOrderDetailsState>(
             builder: (context, state) {
-              final cubit = BlocProvider.of<ReturnOrderDetailsCubit>(context);
-              return Padding(
+              var itemId = cubit.returnOrderResponse!.data!.items![index].id;
+              final cubit_=BlocProvider.of<ReturnOrderDetailsCubit>(context);
+              return state is LoadingSate ||cubit.returnOrderResponse==null? CustomLoading():Padding(
                 padding:
                 EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
                 child: ListView(
@@ -31,7 +43,7 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                   children: [
                     CustomHeader(),
                     SizedBox(
-                      height: 10,
+                      height: 10
                     ),
                     Text(
                       "Return Order Details".tr(),
@@ -44,7 +56,7 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                       height: 13,
                     ),
                     Text(
-                      "Order No. #1236582",
+                      "Order No. #${cubit.returnOrderResponse!.data!.items![index].id??""}",
                       style: TextStyle(
                           color: Color(0XFFA2A2A3),
                           fontWeight: FontWeight.bold,
@@ -75,15 +87,15 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
-                                Text("#46679797",
+                                Text("${cubit.returnOrderResponse!.data!.items![index].id??""}",
                                     style: TextStyle(
                                         color: AppStyle.blackColor,
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      .27,
+                                Expanded(
+                                  child: SizedBox(
+                                  ),
                                 ),
-                                Text("2500 EGP",
+                                Text("${cubit.returnOrderResponse!.data!.items![index].grandTotal??""} EGP",
                                     style: TextStyle(
                                         color: AppStyle.primaryColor,
                                         fontWeight: FontWeight.bold)),
@@ -98,7 +110,7 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
-                                Text(" Accepted".tr(),
+                                Text(" ${cubit.returnOrderResponse!.data!.items![index].status}".tr(),
                                     style: TextStyle(
                                         color: Colors.green,
                                         fontWeight: FontWeight.bold)),
@@ -109,7 +121,7 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              "Sunday , 12 Nov 2023  ",
+                              "${cubit.returnOrderResponse!.data!.items![index].returnDate}  ",
                               style: TextStyle(
                                   color: Colors.grey.withOpacity(.9),
                                   fontWeight: FontWeight.bold,
@@ -137,12 +149,12 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ProductItem(
                           image: "Rectangle 12349.png",
-                          title: "keratin Serum",
-                          price: "360.00",
-                          count: "2",
+                          title: "${cubit_.returnOrderDetailsResponse!.data!.items![index].productName}",
+                          price: "${cubit_.returnOrderDetailsResponse!.data!.items![index].price}",
+                          count: "${cubit_.returnOrderDetailsResponse!.data!.items![index].quantity}",
                         );
                       },
-                      itemCount: 2,
+                      itemCount:cubit_.returnOrderDetailsResponse!.data!.items!.length?? 1,
                       separatorBuilder: (context, index) {
                         return const SizedBox(
                           height: 17,
@@ -174,7 +186,7 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),border: Border.all(color: Colors.grey.withOpacity(.5))),
                         child: Padding(
                             padding: const EdgeInsets.all(7),
-                            child:Text("هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا "
+                            child:Text("${cubit_.returnOrderDetailsResponse!.data!.reason} "
                                 "النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص ",
                               style: TextStyle(color: Colors.grey),)
                             // Column(

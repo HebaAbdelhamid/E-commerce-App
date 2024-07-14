@@ -1,9 +1,5 @@
-class Account_settingState {
-  Account_settingState init() {
-    return Account_settingState();
-  }
-
-  Account_settingState clone() {
-    return Account_settingState();
-  }
-}
+abstract class Account_settingState {}
+class InitialAccount_settingState extends Account_settingState{}
+class LoadingAccount_settingState extends Account_settingState{}
+class SuccessAccount_settingState extends Account_settingState{}
+class ErrorAccount_settingState extends Account_settingState{}

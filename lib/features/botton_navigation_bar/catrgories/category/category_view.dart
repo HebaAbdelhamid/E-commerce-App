@@ -10,11 +10,13 @@ import 'package:yiki1/common_component/Custom_sub_header_home.dart';
 import 'package:yiki1/common_component/BottonSheet/botton_sheet_productDetails.dart';
 import 'package:yiki1/common_component/category_name.dart';
 import 'package:yiki1/common_component/custom_item_card.dart';
+import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/common_component/custom_new_arrival.dart';
 import 'package:yiki1/common_component/sub_page_header.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/catrgories/catrgories_view.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/home_cubit.dart';
 
 import 'category_cubit.dart';
 import 'category_state.dart';
@@ -24,7 +26,7 @@ class CategoryPage extends StatelessWidget {
   List<Color> color = [
     AppStyle.primaryColor,
     Colors.grey.withOpacity(.1),
-    Colors.grey.withOpacity(.1)
+    Colors.grey.withOpacity(.1),
   ];
   List<Color> textColor = [
     Colors.white,
@@ -32,10 +34,13 @@ class CategoryPage extends StatelessWidget {
     AppStyle.lightBlackColor,
   ];
 
+  CategoryPage({required this. id,super.key});
+  int id;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => CategoryCubit(),
+      create: (BuildContext context) => CategoryCubit()..fetchCategory()..fetchCategoryProduct(category_id: "1"),
       child:  BlocBuilder<CategoryCubit, CategoryState>(
         builder: (context, state) {
           final cubit = BlocProvider.of<CategoryCubit>(context);
@@ -70,10 +75,10 @@ class CategoryPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 12),
                     ),
-                    IconButton(icon:Icon(Icons.add),onPressed: (){
-                      cubit.addToCart();
-
-                    },),
+                    // IconButton(icon:Icon(Icons.add),onPressed: (){
+                    //   cubit.addToCart();
+                    //
+                    // },),
                     SizedBox(
                       height: 17,
                     ),
@@ -92,25 +97,33 @@ class CategoryPage extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      child: ListView.builder(
-                        itemCount: categoryName.length,
+                      child:state is LoadingCategoryNameState ||cubit.categoryResponse==null?Center(child: Text("Loading......",style: TextStyle(fontWeight: FontWeight.bold),)):
+                      ListView.builder(
+                        itemCount: 4,
                         itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomCategoryName(
-                                    color1: color[index],
-                                    color2: textColor[index],
-                                    text: categoryName[index],
-                                    width: MediaQuery.of(context).size.width * .3,
+                          return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  child: CustomCategoryName(
+                                    color1: cubit.selectedIndex==index?AppStyle.primaryColor:Colors.white,
+                                    color2: cubit.selectedIndex==index?Colors.white:AppStyle.primaryColor,
+                                    text: cubit.categoryResponse!.data!.items![index].name.toString(),
+                                    width: MediaQuery.of(context).size.width * .4,
                                   ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                ]),
-                          );
+                                  onTap: (){
+                                    cubit.changeSelectedIndex(index);
+                                    cubit.fetchCategoryProduct(category_id: cubit.categoryResponse!.data!.items![index].id);
+                                    // print(cubit.categoryResponse!.data!.items!.length);
+                                    // //4
+                                    // print(cubit.categoryResponse!.data!.items![3].name);
+
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                              ]);
                         },
                         scrollDirection: Axis.horizontal,
                       ),
@@ -118,10 +131,12 @@ class CategoryPage extends StatelessWidget {
                     SizedBox(
                       height: 11,
                     ),
+                    state is LoadingCategoryState ||cubit.categoryProductResponse==null?CustomLoading():
                     Expanded(
                       child: GridView.builder(
                           scrollDirection: Axis.vertical,
-                          itemCount: 9,
+                          // itemCount: 1,
+                          itemCount: cubit.categoryProductResponse!.data!.items!.length??1,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 2,
@@ -130,19 +145,27 @@ class CategoryPage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return const ProductDetailsBottonSheet();
-                                    });
+                                // showModalBottomSheet(
+                                //     context: context,
+                                //     builder: (context) {
+                                //       return  ProductDetailsBottonSheet(cubit as HomeCubit);
+                                //     });
                               },
                               child: CustomItemCard(
+                                id:cubit.categoryProductResponse!.data!.items![index].id.toString(),
                                 image: 'assets/images/Rectangle 12349.png',
-                                oldPrice: '180.00',
-                                price: '150.00',
+                                oldPrice: cubit.categoryProductResponse!.data!.items![index].price.toString(),
+                                price: cubit.categoryProductResponse!.data!.items![index].priceAfterDiscount.toString(),
                                 // count: 1,
-                                title: "keratin Serum",
-                                // function: cubit.addToCart(),
+                                title: cubit.categoryProductResponse!.data!.items![index].name.toString(),
+                                function:() {
+                                  cubit.addToCart(
+                                    id: cubit.categoryProductResponse!.data!.items![0].id
+                                        .toString(),
+                                    count: cubit.getItemCount(id).toString(),
+                                  );
+                                }
+                                // cubit.addToCart(),
                               ),
                             );
                           }),

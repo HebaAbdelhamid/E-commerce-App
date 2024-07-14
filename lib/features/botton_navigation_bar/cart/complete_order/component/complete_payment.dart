@@ -2,72 +2,69 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:iconic/iconic.dart';
 import 'package:yiki1/common_component/CartDetails.dart';
-import 'package:yiki1/common_component/Custom_sub_header_home.dart';
 import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
-import 'package:yiki1/common_component/pop_up.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/cart/cart_cubit.dart';
 import 'package:yiki1/utils/utils.dart';
 
 import '../complete_order_cubit.dart';
 import '../complete_order_state.dart';
 
 class CompletePayment extends StatelessWidget {
+  List paymentMethodTitle=[
+    'vodafone cash',
+    'instapay',
+    'Cash on delivery'
+  ];
+
+  CompletePayment(this. gift);
+  String ?gift;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CompleteOrderCubit, CompleteOrderState>(
       builder: (context, state) {
+
+
         final cubit = BlocProvider.of<CompleteOrderCubit>(context);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
+              padding: EdgeInsets.only(top: 28.0, right: 20,left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Choose Payment Method",
                     style: TextStyle(
                         fontSize: 17,
                         color: AppStyle.blackColor,
                         fontWeight: FontWeight.bold),
                   ),
-                  InkWell(
-                      onTap: () {
-                        cubit.selesctedPayment(0);
-                      },
-                      child: CustomListTilePayment(
-                        image: cubit.selectedPayment == 0
-                            ? 'Group 4211.png'
-                            : 'images.png',
-                        title: 'vodafone cash',
-                      )),
-                  InkWell(
-                      onTap: () {
-                        cubit.selesctedPayment(1);
-                      },
-                      child: CustomListTilePayment(
-                        image: cubit.selectedPayment == 1
-                            ? 'Group 4211.png'
-                            : 'images.png',
-                        title: 'instapay',
-                      )),
-                  InkWell(
-                      onTap: () {
-                        cubit.selesctedPayment(2);
-                      },
-                      child: CustomListTilePayment(
-                        image: cubit.selectedPayment == 2
-                            ? 'Group 4211.png'
-                            : 'images.png',
-                        title: 'Cash on delivery',
-                      )),
+                  SizedBox(
+                    height: 170,
+                    child: ListView.builder(
+                        itemBuilder: (context,index){
+                    return  InkWell(
+                        onTap: () {
+                          cubit.selesctedPayment(index);
+                          cubit.paymentMethod_(paymentMethodTitle[index]);
+                        },
+                        child: CustomListTilePayment(
+                          image: cubit.selectedPayment == index
+                              ? 'Group 4211.png'
+                              : 'images.png',
+                          title: paymentMethodTitle[index],
+                        )
+                    );
+                        },itemCount: 3,
+                    ),
+                  ),
                   Divider(
                     color: Colors.grey.withOpacity(.4),
                   ),
@@ -86,6 +83,7 @@ class CompletePayment extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: CustomTextField(
+                          controller: cubit.copoun,
                           radius: 5,
                           isNext: true,
                           prefixIcon: Padding(
@@ -106,13 +104,17 @@ class CompletePayment extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: AppStyle.primaryColor,
                                   borderRadius: BorderRadius.circular(5)),
-                              child: Center(
-                                  child: Text(
-                                "Apply",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
+                              child:  Center(
+                                  child: TextButton(
+                                    child: const Text("Apply",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),),
+                                    onPressed: (){
+                                      cubit.addCouponMethods();
+                                    },
+
                               )))),
                     ],
                   ),
@@ -125,8 +127,6 @@ class CompletePayment extends StatelessWidget {
             Container(
               decoration: const BoxDecoration(
                   border: Border(
-                    // left: BorderSide(color: AppStyle.primaryColor),
-                    // right: BorderSide(color: AppStyle.primaryColor),
                     top: BorderSide(color: AppStyle.primaryColor),
                   ),
                   borderRadius: BorderRadius.only(
@@ -136,7 +136,7 @@ class CompletePayment extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "Order Summary",
                       style: TextStyle(
                           fontSize: 17,
@@ -180,13 +180,17 @@ class CompletePayment extends StatelessWidget {
                       price: "762.00",
                     ),
                     SizedBox(
-                      height: 17,
+                      height: 17
                     ),
                     CustomButton(
                       bgColor: AppStyle.primaryColor,
                       textColor: Colors.white,
                       title: "Checkout",
                       function: () {
+                        // final cubit_ = BlocProvider.of<CartCubit>(context);
+                        // print(cubit_.gift);
+                        print(cubit.paymentMethod);
+                        cubit.addPaymentMethods( "20", cubit.paymentMethod,gift);
                         Utils.completeOrder(context);
                         // Utils.verifyAccount(context);
                       },

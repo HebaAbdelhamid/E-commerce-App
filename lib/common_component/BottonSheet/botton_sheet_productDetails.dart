@@ -5,12 +5,12 @@ import 'package:iconic/iconic.dart';
 import 'package:yiki1/common_component/Custom_home_price_count.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/home_cubit.dart';
 
 class ProductDetailsBottonSheet extends StatefulWidget {
-  const ProductDetailsBottonSheet({
+   ProductDetailsBottonSheet( {
     super.key,
   });
-
   @override
   State<ProductDetailsBottonSheet> createState() => _ProductDetailsBottonSheetState();
 }

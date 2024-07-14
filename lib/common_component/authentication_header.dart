@@ -11,31 +11,56 @@ class CustomAuthenticationHeader extends StatelessWidget {
   final VoidCallback? onArrowBack;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          width: 60,
-          height: 35,
-          decoration: BoxDecoration(
-            color: AppStyle.lightGrayColor,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppStyle.blackColor,
-            ),
-            onPressed: onArrowBack ?? () {
-                  MagicRouter.pop();
+    return AppBar(
+      leading: Container(
+              width: 60,
+              height: 35,
+              decoration: BoxDecoration(
+                color: AppStyle.lightGrayColor,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: AppStyle.blackColor,
+                ),
+                onPressed: onArrowBack ?? () {
+                      MagicRouter.pop();
 
-                },
-          ),
-        ),
-        SvgPicture.asset("assets/images/Group 1000000927.svg")
+                    },
+              ),
+            ),
+      actions: [
+            SvgPicture.asset("assets/images/Group 1000000927.svg")
       ],
     );
+
+      //  Row(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //   children: [
+      //     Container(
+      //       width: 60,
+      //       height: 35,
+      //       decoration: BoxDecoration(
+      //         color: AppStyle.lightGrayColor,
+      //         borderRadius: BorderRadius.circular(5),
+      //       ),
+      //       child: IconButton(
+      //         icon: Icon(
+      //           Icons.arrow_back,
+      //           color: AppStyle.blackColor,
+      //         ),
+      //         onPressed: onArrowBack ?? () {
+      //               MagicRouter.pop();
+      //
+      //             },
+      //       ),
+      //     ),
+      //     SvgPicture.asset("assets/images/Group 1000000927.svg")
+      //   ],
+      // ),
+    // );
   }
 
 }

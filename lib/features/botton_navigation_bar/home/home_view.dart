@@ -15,6 +15,7 @@ import 'package:yiki1/features/botton_navigation_bar/home/components/customCarou
 import 'package:yiki1/features/botton_navigation_bar/home/components/flashSale.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/components/products.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/home_state.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/discount_counpons/discount_counpons_view.dart';
 import 'package:yiki1/features/new_offer/new_offer_view.dart';
 import 'home_cubit.dart';
 
@@ -77,14 +78,14 @@ class HomePage extends StatelessWidget {
                                           children: [
                                             Text(
                                               "Flash Sale".tr(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: AppStyle.blackColor,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 15),
                                             ),
                                             Text(
                                               "Discover Our Flash Sale".tr(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Color(0XFFA2A2A3),
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 12),
@@ -104,6 +105,7 @@ class HomePage extends StatelessWidget {
                                                   size: 16,
                                                 ),
                                                 onPressed: () {
+                                                  print(copyValue);
                                                   MagicRouter.navigateTo(
                                                       NewOfferPage());
                                                 },

@@ -7,18 +7,20 @@ class CustomChooseAddress extends StatelessWidget {
     required this.image,
     required this.text,
     required this.color1,
-    required this.color2
+    required this.color2,
+    this.width
   });
   String image;
   String text;
   Color color1;
   Color color2;
+  double ?width;
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120,
+      width: width,
       height:40 ,
       decoration: BoxDecoration(color: color1,borderRadius: BorderRadius.circular(5)),
       child: Row(

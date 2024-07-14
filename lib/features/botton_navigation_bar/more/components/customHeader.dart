@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconic/iconic.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/botton_navigation_bar_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/cart_view.dart';
 
 class CustomHeader extends StatelessWidget {
@@ -41,7 +42,9 @@ class CustomHeader extends StatelessWidget {
             child: IconButton(
               icon: Icon(Iconic.shopping_cart),
               onPressed: () {
-                MagicRouter.navigateTo(CartPage());
+                MagicRouter.navigateTo(BottonNavigationBarPage(currentIndex: 2,));
+
+                // MagicRouter.navigateTo(CartPage());
               },
             )),
       ],

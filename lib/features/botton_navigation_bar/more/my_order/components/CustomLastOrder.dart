@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/my_order/components/CustmOrderInInDelivered.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/my_order/components/CustomOrderICanceled.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/my_order/my_order_cubit.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/my_order/my_order_state.dart';
 
 class CustomLastOrder extends StatelessWidget {
   const CustomLastOrder({
@@ -9,19 +12,17 @@ class CustomLastOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SizedBox(height: 22,),
-      CustomOrderInDelivered(),
-      SizedBox(height: 13,),
-      SizedBox(
-        height: 900,
-        child: ListView.separated(itemBuilder: (context,index){
-          return  CustomOrderCanceled();
-        }, separatorBuilder: (context,index){
-          return                   SizedBox(height: 13,);
+    return BlocBuilder<MyOrderCubit, MyOrderState>(
+      builder: (context, state) {
+        final cubit=BlocProvider.of<MyOrderCubit>(context);
+        return Column(children: [
+          SizedBox(height: 22,),
+          SizedBox(
+            height: 900,
+            child:  CustomOrderCanceled(cubit: cubit)
 
-        }, itemCount: 7),
-      )
-    ],);
+        )]);
+      },
+    );
   }
 }

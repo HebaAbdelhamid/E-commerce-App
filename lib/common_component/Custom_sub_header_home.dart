@@ -18,13 +18,13 @@ class CustomSubHeaderHome extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width*.76,
+          width: MediaQuery.of(context).size.width*.86,
           child: CustomTextField(
             radius: 5,
             isNext: true,
-            prefixIcon: Padding(
+            prefixIcon: const Padding(
               padding:
-              const EdgeInsets.only(left: 19.0, right: 7),
+              EdgeInsets.only(left: 19.0, right: 7),
               child: Icon(Iconic.search),
             ),
             hint: 'What are you looking for ?'.tr(),
@@ -34,14 +34,14 @@ class CustomSubHeaderHome extends StatelessWidget {
 
           ),
         ),
-        Container(
-            width: 44,
-            height: 45,
-            decoration: BoxDecoration(color:AppStyle.primaryColor,borderRadius: BorderRadius.circular(5) ),
-            child:IconButton(
-              icon:Icon(Iconic.settings_sliders,color: Colors.white.withOpacity(.7), ),onPressed: function,
-            )
-        ),
+        // Container(
+        //     width: 44,
+        //     height: 45,
+        //     decoration: BoxDecoration(color:AppStyle.primaryColor,borderRadius: BorderRadius.circular(5) ),
+        //     child:IconButton(
+        //       icon:Icon(Iconic.settings_sliders,color: Colors.white.withOpacity(.7), ),onPressed: function,
+        //     )
+        // ),
       ],
     );
   }

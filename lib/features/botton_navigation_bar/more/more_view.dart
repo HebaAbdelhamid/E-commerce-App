@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yiki1/common_component/BottonSheet/app_language.dart';
-import 'package:yiki1/common_component/BottonSheet/loyaltyPoints.dart';
 import 'package:yiki1/common_component/custom_home_header.dart';
 import 'package:yiki1/common_component/custom_more_item.dart';
 import 'package:yiki1/core/router.dart';
@@ -25,6 +24,8 @@ import 'package:yiki1/features/botton_navigation_bar/more/signout/sign_out_view.
 import 'package:yiki1/features/botton_navigation_bar/more/terms_conditions/terms_conditions_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/wallet/wallet_view.dart';
 import 'package:yiki1/features/favourite_product/favourite_product_view.dart';
+import 'package:yiki1/features/google_map/add_new_address/add_new_address_view.dart';
+import 'package:yiki1/features/new_offer/new_offer_view.dart';
 
 import 'more_cubit.dart';
 import 'more_state.dart';
@@ -135,7 +136,9 @@ class MorePage extends StatelessWidget {
                         image: "assets/images/Point On Map.png",
                         text: "Delivery Addresses".tr(),
                         function: () {
-                          MagicRouter.navigateTo(Delivery_addressPage());
+                          MagicRouter.navigateTo(AddNewAddressPage());
+
+                          // MagicRouter.navigateTo(Delivery_addressPage());
 
                         },
                       ),
@@ -151,7 +154,7 @@ class MorePage extends StatelessWidget {
                         image: "assets/images/Tag.png",
                         text: "Flash Sale".tr(),
                         function: () {
-                          MagicRouter.navigateTo(FlashSalePage());
+                          MagicRouter.navigateTo(NewOfferPage());
 
                         },
                       ),
