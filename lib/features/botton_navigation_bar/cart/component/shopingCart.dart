@@ -10,85 +10,96 @@ class ShoppingCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
-        final cubit=BlocProvider.of<CartCubit>(context);
-        return
-        cubit.getCartResponse==null?Center(child: Text("No Poducts In Cart ")):
-        SizedBox(
-          height: MediaQuery.of(context).size.height*.34,
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              print(cubit.getCartResponse!.data!.order!.items!.length);
-              final item = cubit.getCartResponse!.data!.order!.items![index];
-              final itemId = item.id;
-              cubit.getCartResponse!.data!.order!.items![index].productQuantity??1;
-              var id=cubit.getItemCount(itemId! ).toString();
-             int? quantity= cubit.getCartResponse!.data!.order!.items![index].productQuantity??1;
+        final cubit = BlocProvider.of<CartCubit>(context);
+        return cubit.getCartResponse!.data == null
+            ? Center(child: Text("No Poducts In Cart "))
+            : ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                print(cubit.getCartResponse!.data!.order!.items!.length);
+                final item =
+                    cubit.getCartResponse!.data!.order!.items![index];
+                final itemId = item.id;
+                cubit.getCartResponse!.data!.order!.items![index]
+                        .productQuantity ??
+                    1;
+                var id = cubit.getItemCount(itemId!).toString();
+                int? quantity = cubit.getCartResponse!.data!.order!
+                        .items![index].productQuantity ??
+                    1;
 
-              return Row(
-                children: [
-                  Container(
-                    width:60,
-                    height: MediaQuery.of(context).size.height*.22,
-                    decoration: BoxDecoration(
-                        color: AppStyle.primaryColor,
-                        borderRadius: BorderRadius.circular(7)),
-                    child: Column(
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              cubit.increament(itemId);
-                            },
-                            child: const Text(
-                              "+",
-                              style: TextStyle(fontSize: 20, color: Colors.white),
-                            )),
-                        Text(cubit.getCartResponse!.data!.order!.items![index].productQuantity.toString(),
-               maxLines: 2,overflow: TextOverflow.ellipsis,
-               // cubit.getItemCount(itemId! ).toString(),
-                          style: TextStyle(fontSize: 22, color: Colors.white),
-                        ),
-                        TextButton(
-                            onPressed: () {
-          if(cubit.getItemCount(itemId )>1)
-                                cubit.decreament(itemId);
-          print(cubit.getCartResponse!.data!.order!.items!.length);
+                return Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: MediaQuery.of(context).size.height * .22,
+                      decoration: BoxDecoration(
+                          color: AppStyle.primaryColor,
+                          borderRadius: BorderRadius.circular(7)),
+                      child: Column(
+                        children: [
+                          TextButton(
+                              onPressed: () {
 
-                            },
-                            child: const Text(
-                              "-",
-                              style: TextStyle(fontSize: 24, color: Colors.white),
-                            )),
-                      ],
+                              },
+                              child: const Text(
+                                "+",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              )),
+                          Text(
+                            // cubit.getItemCount(int.parse(id)).toString(),
+                            cubit.getCartResponse!.data!.order!
+                                .items![index].quantity
+                                .toString(),
+                            maxLines: 2, overflow: TextOverflow.ellipsis,
+                            // cubit.getItemCount(itemId! ).toString(),
+                            style: TextStyle(
+                                fontSize: 22, color: Colors.white),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                if (cubit.getItemCount(itemId) > 1)
+                                  cubit.decreament(itemId);
+                                print(cubit.getCartResponse!.data!.order!
+                                    .items!.length);
+                              },
+                              child: const Text(
+                                "-",
+                                style: TextStyle(
+                                    fontSize: 24, color: Colors.white),
+                              )),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                      width: 10
-                  ),
-                  CartItem(
-                    bloc:cubit,
-                    image: "Rectangle 12349.png",
-                    title: '${cubit.getCartResponse!.data!.order!.items![index].productName}',
-                    price: '${cubit.getCartResponse!.data!.order!.items![index].price}',
-                    count: cubit.getCartResponse!.data!.order!.items!.length,
-                    id:int.parse(id)  ,
-                    function: (){cubit.deleteCartItems(int.parse(itemId.toString()));},
-                  ),
-                ],
-              );
-            },
-            itemCount:cubit.getCartResponse!.data!.order!.items!.length??1,
-            separatorBuilder: (context, index) {
-              return const SizedBox(
-                height: 17,
-              );
-            },
-          ),
-        );
+                    const SizedBox(width: 10),
+                    CartItem(
+                      bloc: cubit,
+                      image: "Rectangle 12349.png",
+                      title:
+                          '${cubit.getCartResponse!.data!.order!.items![index].productName}',
+                      price:
+                          '${cubit.getCartResponse!.data!.order!.items![index].price}',
+                      count:
+                          cubit.getCartResponse!.data!.order!.items!.length,
+                      id: int.parse(id),
+                      function: () {
+                        cubit.deleteCartItems(int.parse(itemId.toString()));
+                      },
+                    ),
+                  ],
+                );
+              },
+              itemCount:
+                  cubit.getCartResponse!.data!.order!.items!.length ?? 1,
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  height: 17,
+                );
+              },
+            );
       },
     );
   }
-
 }
-
-

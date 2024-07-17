@@ -4,7 +4,6 @@ import 'package:yiki1/common_component/BottonSheet/RatingPage.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/my_order/my_order_cubit.dart';
-import 'package:yiki1/features/botton_navigation_bar/more/order_tracking/order_tracking_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/return_order_reason/return_order_reason_view.dart';
 
 class CustomOrderCanceled extends StatelessWidget {
@@ -16,7 +15,7 @@ class CustomOrderCanceled extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      ListView.builder(
+      ListView.separated(
         itemBuilder:(context,index)
         {
           return Container(
@@ -33,33 +32,35 @@ class CustomOrderCanceled extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
                     ),
-                    Text("${cubit.orderResponse!.data!.items![index].id}",
+                    Text("${cubit.pastorderResponse!.data!.items![index].id}",
                         style: TextStyle(color: AppStyle.blackColor, fontWeight: FontWeight.bold)),
                     Expanded(child: SizedBox()),
 
-                    Text("${cubit.orderResponse!.data!.items![index].grandTotalAfterDeposit} EGP",
+                    Text("${cubit.pastorderResponse!.data!.items![index].grandTotalAfterDeposit} EGP",
                         style: TextStyle(color: AppStyle.primaryColor, fontWeight: FontWeight.bold)),
                   ],
                 ),
                 Row(
                   children: [
                     Text(
+                      maxLines:1 ,
                       "Order Status :  ".tr(),
                       style: TextStyle(
                           color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
                     ),
-                    Text("${cubit.orderResponse!.data!.items![index].status}".tr(),
-                        style: TextStyle(color: AppStyle.redColor, fontWeight: FontWeight.bold)),
+                    Text("${cubit.pastorderResponse!.data!.items![index].status}".tr(),
+                        style: TextStyle(color: AppStyle.redColor, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,),
                     SizedBox(width: MediaQuery.of(context).size.width*.27,),
                   ],
                 ),
                 Text(
-                  "${cubit.orderResponse!.data!.items![index].date} ",
+                  "${cubit.pastorderResponse!.data!.items![index].date} ",
                   style: TextStyle(
                       color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
                 ),
                 SizedBox(height: 23,),
-                cubit.orderResponse!.data!.items![index].statusKey=="Delivered"?
+                cubit.pastorderResponse!.data!.items![index].statusKey=="Delivered"?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -96,10 +97,10 @@ class CustomOrderCanceled extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: (){
-                        var item=cubit.orderResponse!.data!.items![index];
+                        var item=cubit.pastorderResponse!.data!.items![index];
 
                         MagicRouter.navigateTo(ReturnOrderReasonPage(item ));
-                      print(cubit.orderResponse!.data!.items![index].toJson());
+                      print(cubit.pastorderResponse!.data!.items![index].toJson());
                         },
                       child: Container(
 
@@ -157,7 +158,10 @@ class CustomOrderCanceled extends StatelessWidget {
             ),
           ),
         );},
-        itemCount: cubit.orderResponse!.data!.items!.length,
+        itemCount: cubit.pastorderResponse!.data!.items!.length,
+        separatorBuilder: (context,index){
+          return SizedBox(height: 7,);
+        },
       );
   }
 }

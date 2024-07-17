@@ -31,8 +31,7 @@ class DioHelper {
             headers: {
               'Authorization': 'Bearer ${AppStorage.getToken}',
               'Accept': 'application/json',
-              'Accept-Language':
-                  AppStorage.box.read('language') == 'english' ? 'en' : 'ar',
+              'Accept-Language': AppStorage.box.read('language') == 'english' ? 'en' : 'ar',
             },
             followRedirects: false,
             contentType: Headers.formUrlEncodedContentType,

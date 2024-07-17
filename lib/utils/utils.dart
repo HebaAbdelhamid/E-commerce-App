@@ -92,7 +92,7 @@ abstract class Utils {
         isScrollControlled: true,
         context: context,
         builder: (context) {
-          return ProductDetailsBottonSheet();
+          return ProductDetailsBottonSheet(id_: 1,);
         });
   }
   static void showBottonSheetCountries(context,{required Widget widget}) {

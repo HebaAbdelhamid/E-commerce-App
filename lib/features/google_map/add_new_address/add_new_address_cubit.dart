@@ -65,6 +65,8 @@ class AddNewAddressCubit extends Cubit<AddNewAddressState> {
       addAddressResponse = AddAddressModel.fromJson(data);
        print(addAddressResponse!.data!.toJson());
       emit(SuccessAddNewAddressState());
+      Utils.showSnackBar(data["message"] ?? "Successfully added");
+
     } else {
       emit(ErrorAddNewAddressState());
       Utils.showSnackBar(data["message"] ?? "Error");

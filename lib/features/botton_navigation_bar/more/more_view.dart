@@ -78,6 +78,7 @@ class MorePage extends StatelessWidget {
     final cubit = BlocProvider.of<MoreCubit>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
         body: SafeArea(
             child: Padding(
                 padding:

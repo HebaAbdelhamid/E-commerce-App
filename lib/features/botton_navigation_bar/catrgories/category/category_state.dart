@@ -6,4 +6,5 @@ class SelectedState extends CategoryState{}
 class SuccessCategoryState extends CategoryState {}
 class ErrorCategoryState extends CategoryState {}
 class ChangeSelectedAddress extends CategoryState{}
+class LoadingState extends CategoryState {}
 

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iconic/iconic.dart';
 import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/common_component/custom_home_header.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
@@ -9,8 +10,8 @@ import 'package:yiki1/common_component/custom_text_field.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/cart_state.dart';
-import 'package:yiki1/features/botton_navigation_bar/cart/component/CartItem.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/component/shopingCart.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/notification/notification_view.dart';
 import 'cart_cubit.dart';
 import 'complete_order/complete_order_view.dart';
 
@@ -19,50 +20,93 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => CartCubit()..fetchCartItems(),
-      child: Builder(builder: (context) => _buildPage(context)),
-    );
-  }
+      child:BlocBuilder<CartCubit, CartState>(
+  builder: (context, state) {
+    final cubit = BlocProvider.of<CartCubit>(context);
 
-  Widget _buildPage(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-            final cubit = BlocProvider.of<CartCubit>(context);
+    return state is LoadingCartState
+        ? Center(child: const CustomLoading()) :Scaffold(
+        backgroundColor: Colors.white,
+        appBar:AppBar(
+          leading: CircleAvatar(
+            radius: 27,
+            backgroundImage: AssetImage(
+              "assets/images/Rectangle 1885.png",
+            ),
+          ),
+          title:Center(child: SvgPicture.asset("assets/images/Group 1000000927.svg")) ,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 18.0),
+              child: Stack(alignment: AlignmentDirectional.topEnd, children: [
+                Container(
+                    width: 44,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: AppStyle.lightGrayColor,
+                        borderRadius: BorderRadius.circular(45)),
+                    child: IconButton(
+                      icon: Icon(Iconic.bell),
+                      onPressed: () {
+                        MagicRouter.navigateTo(NotificationPage());
+                      },
+                    )),
+                CircleAvatar(
+                  backgroundColor: AppStyle.redColor,
+                  radius: 4,
+                )
+              ]),
+            )
 
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
-              child: ListView(
+          ],
+        ) ,
+        body: SafeArea(
+          child: Padding(
+                padding:
+                const EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
+                child: ListView(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 10),
+                        Text(
+                          "Shopping Cart".tr(),
+                          style: const TextStyle(
+                              color: AppStyle.blackColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
+                        SizedBox(height: 13),
+                        Text(
+                          "Browse your cart and complete checkout.".tr(),
+                          style: const TextStyle(
+                              color: Color(0XFFA2A2A3),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                        const Divider(
+                            color: AppStyle.primaryColor, thickness: 2),
+                        const SizedBox(height: 7),
+                        cubit.getCartResponse==null?
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 68.0),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              // width: MediaQuery.of(context).size.width*.9,
+                              height:  MediaQuery.of(context).size.height*.34,
+                              child:
+                              Center(child: Image.asset("assets/images/empty-cart.png",height: 490,))
+                          ),
+                        ):
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomHomeHeader(),
-                            SizedBox(height: 10),
-                            Text(
-                              "Shopping Cart".tr(),
-                              style: TextStyle(
-                                  color: AppStyle.blackColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ),
-                            SizedBox(height: 13),
-                            Text(
-                              "Browse your cart and complete checkout.".tr(),
-                              style: const TextStyle(
-                                  color: Color(0XFFA2A2A3),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                           const Divider(
-                                color: AppStyle.primaryColor, thickness: 2),
-                            const SizedBox(height: 7),
-                            state is LoadingCartState ||cubit.getCartResponse==null
-                                ? CustomLoading() :
-                            ShoppingCart(),
+                            cubit.getCartResponse==null?Text("No Product exist ")
+                                :ShoppingCart(),
                             Divider(
                               color: Colors.grey.withOpacity(.4),
                             ),
@@ -92,7 +136,7 @@ class CartPage extends StatelessWidget {
                               isNext: true,
                               prefixIcon: Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 19.0, right: 7),
+                                const EdgeInsets.only(left: 19.0, right: 7),
                                 child: SvgPicture.asset(
                                     'assets/images/Vector1.svg'),
                               ),
@@ -126,12 +170,12 @@ class CartPage extends StatelessWidget {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(vertical: 18.0),
+                              const EdgeInsets.symmetric(vertical: 18.0),
                               child: CustomButton(
                                 title: "Continue to checkout",
                                 function: () {
                                   var gift=cubit.gift.text;
-                                 print(cubit.gift.text) ;
+                                  print(cubit.gift.text) ;
                                   MagicRouter.navigateTo(ChooseAddressPage(gift));
                                 },
                                 bgColor: AppStyle.primaryColor,
@@ -139,15 +183,22 @@ class CartPage extends StatelessWidget {
                               ),
                             ),
                           ],
-                        )
+                        ),
+
+
                       ],
-                    ),
-            );
-          },
-        ),
-      ),
+                    )
+                  ],
+                ),
+              )
+        )
+      );
+  },
+),
     );
   }
+
+
 }
 
 ///TODO

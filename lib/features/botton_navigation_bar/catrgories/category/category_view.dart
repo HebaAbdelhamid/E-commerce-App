@@ -1,23 +1,15 @@
 import 'dart:core';
-import 'dart:core';
-import 'dart:ffi';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconic/iconic.dart';
-import 'package:yiki1/common_component/Custom_sub_header_home.dart';
 import 'package:yiki1/common_component/BottonSheet/botton_sheet_productDetails.dart';
 import 'package:yiki1/common_component/category_name.dart';
 import 'package:yiki1/common_component/custom_item_card.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
-import 'package:yiki1/common_component/custom_new_arrival.dart';
+import 'package:yiki1/common_component/custom_text_field.dart';
 import 'package:yiki1/common_component/sub_page_header.dart';
-import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
-import 'package:yiki1/features/botton_navigation_bar/catrgories/catrgories_view.dart';
-import 'package:yiki1/features/botton_navigation_bar/home/home_cubit.dart';
-
 import 'category_cubit.dart';
 import 'category_state.dart';
 
@@ -34,8 +26,8 @@ class CategoryPage extends StatelessWidget {
     AppStyle.lightBlackColor,
   ];
 
-  CategoryPage({required this. id,super.key});
-  int id;
+  CategoryPage({ this. id,super.key});
+  int ?id;
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +74,25 @@ class CategoryPage extends StatelessWidget {
                     SizedBox(
                       height: 17,
                     ),
-                    CustomSubHeaderHome(
-                      function: () {},
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width*.86,
+                      child: CustomTextField(
+                        onChanged: (value){
+                          cubit.fetchCategoryProduct();
+                        },
+                        radius: 5,
+                        isNext: true,
+                        prefixIcon: const Padding(
+                          padding:
+                          EdgeInsets.only(left: 19.0, right: 7),
+                          child: Icon(Iconic.search),
+                        ),
+                        hint: 'What are you looking for ?'.tr(),
+                        hintColor: AppStyle.greyColor,
+                        controller: cubit.name,
+                        keyboardType: TextInputType.emailAddress,
+
+                      ),
                     ),
                     SizedBox(
                       height: 11,
@@ -143,13 +152,16 @@ class CategoryPage extends StatelessWidget {
                               mainAxisSpacing: 5,
                               childAspectRatio: 1 / 1.6),
                           itemBuilder: (context, index) {
+                            var id_=cubit.categoryProductResponse!.data!.items![index].id;
+
                             return InkWell(
                               onTap: () {
-                                // showModalBottomSheet(
-                                //     context: context,
-                                //     builder: (context) {
-                                //       return  ProductDetailsBottonSheet(cubit as HomeCubit);
-                                //     });
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return  ProductDetailsBottonSheet(id_: id_!);
+                                    });
                               },
                               child: CustomItemCard(
                                 id:cubit.categoryProductResponse!.data!.items![index].id.toString(),
@@ -162,7 +174,7 @@ class CategoryPage extends StatelessWidget {
                                   cubit.addToCart(
                                     id: cubit.categoryProductResponse!.data!.items![0].id
                                         .toString(),
-                                    count: cubit.getItemCount(id).toString(),
+                                    count: cubit.getItemCount(id!).toString(),
                                   );
                                 }
                                 // cubit.addToCart(),

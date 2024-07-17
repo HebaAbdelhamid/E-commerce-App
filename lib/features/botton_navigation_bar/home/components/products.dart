@@ -166,10 +166,10 @@ class Products extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     cubit.addToCart(
-                                      id: cubit.homeResponse!.data!.products!.items![0].id
+                                      id: cubit.homeResponse!.data!.offers!.items![index].id
                                           .toString(),
+                                      count: cubit.getItemCount(id)
                                     );
-                                    // print("==============ttttttt>${cubit.count}");
                                   },
                                 ),
                               ),

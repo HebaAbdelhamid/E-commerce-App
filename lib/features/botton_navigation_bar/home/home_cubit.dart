@@ -5,6 +5,7 @@ import 'package:yiki1/core/models/addToCartModel.dart';
 import 'package:yiki1/core/models/home_model.dart';
 import 'package:yiki1/core/models/postFavouriteModel.dart';
 import 'package:yiki1/core/models/productDetailsModel.dart';
+import 'package:yiki1/core/models/showProduct.dart';
 import 'package:yiki1/utils/utils.dart';
 
 import 'home_state.dart';
@@ -80,7 +81,7 @@ print(productDetailsResponse!.data!.name);
 PostFavouriteModel?postFavouriteResponse;
   addToCart({required String id,count}) async {
     final body =
-    {"id": id, "quantity": "9", "all_quantity": "0"};
+    {"id": id, "quantity": count, "all_quantity": "0"};
     Response response = await DioHelper.post("add-to-cart", true, body: body);
     final data = response.data as Map<String, dynamic>;
     if (data["status"] == true) {
@@ -88,6 +89,7 @@ PostFavouriteModel?postFavouriteResponse;
       addtoCartResponse = AddtoCartModel.fromJson(data);
       print(addtoCartResponse!.data!.order!.items![0].productName);
       print(addtoCartResponse!.data!.order!.items!.length);
+      Utils.showSnackBar(data["message"] ?? "Added to cart Successfully");
 
       emit(SuccessState_());
     } else {
@@ -115,5 +117,22 @@ PostFavouriteModel?postFavouriteResponse;
       Utils.showSnackBar(data["message"] ?? "Error");
     }
   }
+  ShowProductModel ?showProductResponse;
+  fetchProduct(id)async{
+    emit(LoadingState());
+    Response? response=await DioHelper.get("products/$id");
+    final data=response!.data as Map<String,dynamic>;
+    if(data["status"]==true){
+      showProductResponse=ShowProductModel.fromJson(data);
+      print(showProductResponse!.data!.name);
+      // print("===========tttttttttt${categoryResponse!.data!.items![0].id}");
+      emit(SuccessState());
 
+    }else{
+      emit(ErrorState());
+      print(data["message"]??"Error");
+      Utils.showSnackBar(data['message'] ?? "Error  Data");
+
+    }
+  }
 }

@@ -51,7 +51,8 @@ class TermsConditionsPage extends StatelessWidget {
               ),
 
             ]),
-          ))
+          )
+      )
     );
   }
 

@@ -4,12 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconic/iconic.dart';
 import 'package:yiki1/common_component/category_name.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
-import 'package:yiki1/common_component/custom_text_field.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/components/customHeader.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/my_order/components/CustomCurrentOrder.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/my_order/components/CustomLastOrder.dart';
-import 'package:yiki1/utils/utils.dart';
 import 'my_order_cubit.dart';
 import 'my_order_state.dart';
 
@@ -17,7 +15,9 @@ class MyOrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => MyOrderCubit(),
+        create: (BuildContext context) => MyOrderCubit()
+          ..getCurrentOrders(status: '')
+          ..getPastOrders(''),
         child: Scaffold(
             backgroundColor: Colors.white,
             body: BlocBuilder<MyOrderCubit, MyOrderState>(
@@ -50,64 +50,52 @@ class MyOrderPage extends StatelessWidget {
                           thickness: 2,
                         ),
                         const SizedBox(height: 13),
-                        DropdownMenu(onSelected: (value){
-                          print(value);
-                          cubit.getCurrentOrders(value);
-                          cubit.getPastOrders(value);
-                        },
+                        DropdownMenu(
+                            onSelected: (value) {
+                              print(value);
+                              cubit.getCurrentOrders(status: value);
+                              cubit.getPastOrders(value);
+                            },
                             width: 370,
                             leadingIcon: Icon(Iconic.time_past),
                             label: Text("Filter by order status".tr(),
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 13)),
-                            dropdownMenuEntries:
-                            const [
+                            dropdownMenuEntries: const [
                               DropdownMenuEntry(
-                                  leadingIcon: Icon(Iconic.call_history),
-                                  label: 'Shipping_price_will_be_reviewed',
-                                  value: "Shipping_price_will_be_reviewed",),
+                                leadingIcon: Icon(Iconic.call_history),
+                                label: 'Shipping_price_will_be_reviewed',
+                                value: "Shipping_price_will_be_reviewed",
+                              ),
                               DropdownMenuEntry(
                                   leadingIcon: Icon(Iconic.call_history),
                                   label: 'Waiting_for_customer_confirmation',
                                   value: "Waiting_for_customer_confirmation"),
                               DropdownMenuEntry(
                                   leadingIcon: Icon(Iconic.call_history),
-                                  label: 'pending',
-                                  value: "pending"),
-                              DropdownMenuEntry(
-                                  leadingIcon: Icon(Iconic.call_history),
                                   label: 'In_the_cart',
                                   value: "In_the_cart"),
                               DropdownMenuEntry(
-                                leadingIcon: Icon(Iconic.call_history),
-                                label: 'pending',
-                                value: "pending"),
+                                  leadingIcon: Icon(Iconic.call_history),
+                                  label: 'in_review',
+                                  value: "in_review"),
                               DropdownMenuEntry(
-                                leadingIcon: Icon(Iconic.call_history),
-                                label: 'in_review',
-                                value: "in_review"),
+                                  leadingIcon: Icon(Iconic.call_history),
+                                  label: 'in_progress',
+                                  value: "in_progress"),
                               DropdownMenuEntry(
-                                leadingIcon: Icon(Iconic.call_history),
-                                label: 'in_progress',
-                                value: "in_progress"),
-                              DropdownMenuEntry(
-                                leadingIcon: Icon(Iconic.call_history),
-                                label: 'in_delivery',
-                                value: "in_delivery"),
+                                  leadingIcon: Icon(Iconic.call_history),
+                                  label: 'in_delivery',
+                                  value: "in_delivery"),
                               DropdownMenuEntry(
                                   leadingIcon: Icon(Iconic.call_history),
                                   label: 'Cancelled',
                                   value: "Cancelled"),
                               DropdownMenuEntry(
-                                leadingIcon: Icon(Iconic.call_history),
-                                label: 'Delivered',
-                                value: "Delivered"),
-                              DropdownMenuEntry(
                                   leadingIcon: Icon(Iconic.call_history),
-                                  label: 'client_refused',
-                                  value: "client_refused"),
-                            ]
-                        ),
+                                  label: 'Delivered',
+                                  value: "Delivered"),
+                            ]),
                         // InkWell(
                         //   onTap: () {
                         //     // cubit.getCountryByName(name: "");
@@ -185,17 +173,13 @@ class MyOrderPage extends StatelessWidget {
                         //   ),
                         // ),
 
-
-                        const SizedBox(
-                          height: 22
-                        ),
+                        const SizedBox(height: 22),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               InkWell(
                                   onTap: () {
                                     cubit.selected_(1);
-
                                   },
                                   child: CustomCategoryName(
                                     width:

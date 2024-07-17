@@ -20,6 +20,7 @@ class CustomSubHeaderHome extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width*.86,
           child: CustomTextField(
+            onTap: function,
             radius: 5,
             isNext: true,
             prefixIcon: const Padding(

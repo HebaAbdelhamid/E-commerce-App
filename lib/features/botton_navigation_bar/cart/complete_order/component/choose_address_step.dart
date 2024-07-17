@@ -25,8 +25,8 @@ class ChooseAddressStep extends StatelessWidget {
 
           return Column(
             children: [
-              state is LoadingState?CustomLoading():
-              SizedBox(
+              state is LoadingState?CustomLoading():cubit.getAddressResponse==null?Text("No Address Entered ")
+              :SizedBox(
                 height: 280,
                 width: 500,
                 child: CustomAddress(cubit: cubit),

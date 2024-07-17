@@ -65,10 +65,11 @@ class CustmorderInPRogress extends StatelessWidget{
                        ],
                      ),
                      Text(
+                       maxLines: 1,
                        "${cubit.orderResponse!.data!.items![index].date}",
                        style: TextStyle(
                            color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
-                     ),
+                    overflow: TextOverflow.ellipsis, ),
                      SizedBox(height: 23,),
 
                      cubit.orderResponse!.data!.items![index].statusKey=="in_delivery"?

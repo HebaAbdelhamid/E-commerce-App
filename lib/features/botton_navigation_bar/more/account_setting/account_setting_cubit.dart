@@ -16,13 +16,18 @@ class AccountSettingCubit extends Cubit<Account_settingState> {
   TextEditingController password = TextEditingController();
 
   ProfileModel? profileResponse;
+  late final picture;
   imagePicker(){
-    ImagePicker().pickImage(source: ImageSource.gallery);
+  picture=  ImagePicker().pickImage(source: ImageSource.gallery);
 
   }
 
   updateProfile() async {
-    final body = {"_method": "_method", "name": name.text, "email": email.text};
+    final body = {
+      "_method": "_method",
+      "name": name.text,
+      "email": email.text
+    };
     Response response = await DioHelper.put("auth/profile", true, body: body);
     final data = response.data as Map<String, dynamic>;
     if (data["status"] == true) {

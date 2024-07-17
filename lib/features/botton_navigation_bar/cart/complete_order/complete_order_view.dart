@@ -2,8 +2,7 @@ import 'package:another_stepper/another_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yiki1/common_component/authentication_header.dart';
-import 'package:yiki1/common_component/custom_button.dart';
+import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 
@@ -49,7 +48,7 @@ class ChooseAddressPage extends StatelessWidget {
             BlocBuilder<CompleteOrderCubit, CompleteOrderState>(
                 builder: (context, state) {
           final controller = BlocProvider.of<CompleteOrderCubit>(context);
-          return ListView(children: [
+          return state is LoadingState?CustomLoading():ListView(children: [
             Padding(
               padding: EdgeInsets.only(top: 28.0, right: 20,left: 20),
               child: Column(

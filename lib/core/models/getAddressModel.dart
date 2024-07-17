@@ -27,9 +27,9 @@ class GetAddressModel {
 class Data {
   int? id;
   String? name;
-  Null? postal;
+  String? postal;
   int? isDefault;
-  Null? nearestPlace;
+  String? nearestPlace;
   String? address;
   String? kind;
   String? kindKey;
@@ -37,7 +37,7 @@ class Data {
   int? countryId;
   String? city;
   int? cityId;
-  Null? shippingFees;
+  var shippingFees;
   String? lat;
   String? lng;
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/catrgories/category/category_view.dart';
 
 class CustomCategories extends StatelessWidget {
   CustomCategories({
@@ -28,8 +30,8 @@ class CustomCategories extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 17.0,horizontal: 13),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(text1,
                   style: TextStyle(
@@ -49,7 +51,10 @@ class CustomCategories extends StatelessWidget {
               decoration: BoxDecoration(color:Colors.grey.withOpacity(.1),borderRadius: BorderRadius.circular(45) ),
               child:Center(
                 child: IconButton(
-                  icon:Icon(Icons.arrow_forward,size: 16,),onPressed: (){},
+                  icon:Icon(Icons.arrow_forward,size: 16,),onPressed: (){
+                  MagicRouter.navigateTo(CategoryPage());
+
+                },
                 ),
               )
           )

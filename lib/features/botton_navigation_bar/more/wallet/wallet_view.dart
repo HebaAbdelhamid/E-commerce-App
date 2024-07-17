@@ -6,6 +6,7 @@ import 'package:yiki1/common_component/BottonSheet/chargeYourWallet.dart';
 import 'package:yiki1/common_component/authentication_header.dart';
 import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/more/wallet/wallet_state.dart';
 
 import 'wallet_cubit.dart';
 
@@ -14,7 +15,10 @@ class WalletPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => WalletCubit()..fetch(),
-      child: Scaffold(
+      child: BlocBuilder<WalletCubit, WalletState>(
+  builder: (context, state) {
+    final cubit=BlocProvider.of<WalletCubit>(context);
+    return Scaffold(
           backgroundColor: Colors.white,
           body: Padding(
             padding: EdgeInsets.symmetric(vertical: 28.0, horizontal: 20),
@@ -67,20 +71,20 @@ class WalletPage extends StatelessWidget {
                           height: 13,
                         ),
                         Text(
-                          " 4500.00",
+                          " ${cubit.walletResponse!.data!.wallet}",
                           style: TextStyle(
                             color: AppStyle.blackColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 20),
                         ),
                         SizedBox(
-                          height: 23,
+                          height: 23
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 40
                   ),
                   CustomButton(
                     bgColor: AppStyle.primaryColor,
@@ -105,7 +109,9 @@ class WalletPage extends StatelessWidget {
 
 
             ]),
-          ))
+          ));
+  },
+)
     );
   }
 

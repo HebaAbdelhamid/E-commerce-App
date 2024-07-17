@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rate/rate.dart';
-import 'package:yiki1/common_component/BottonSheet/RatingPage.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
 import 'package:yiki1/core/router.dart';
@@ -12,8 +11,6 @@ import 'package:yiki1/features/botton_navigation_bar/cart/cart_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/complete_order/complete_order_state.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/components/customHeader.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/order%20_details/components/productItem.dart';
-import 'package:yiki1/features/botton_navigation_bar/more/order_tracking/order_tracking_view.dart';
-import 'package:yiki1/utils/utils.dart';
 import 'order _details_cubit.dart';
 import 'order _details_state.dart';
 

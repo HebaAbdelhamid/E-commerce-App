@@ -79,7 +79,7 @@ class CompleteOrderCubit extends Cubit<CompleteOrderState> {
     final data = response!.data;
     if (data["status"] == true) {
        getAddressResponse= GetAddressModel.fromJson(data);
-print(getAddressResponse!.data![0].kind);
+// print(getAddressResponse!.data![0].kind);
       emit(SuccesState());
     } else {
       emit(ErrorState());

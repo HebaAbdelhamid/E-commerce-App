@@ -16,7 +16,10 @@ class Sign_outPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => Sign_outCubit(),
-      child: Container(
+      child: BlocBuilder<Sign_outCubit, Sign_outState>(
+  builder: (context, state) {
+    final cubit=BlocProvider.of<Sign_outCubit>(context);
+    return Container(
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,6 +71,7 @@ class Sign_outPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: (){
+                  cubit.signOut();
                   MagicRouter.navigateTo(LoginPage());
                 },
                 child: CustomCategoryName(width: MediaQuery.of(context).size.width*.3, text: 'Signout'.tr(), color1: Colors.white,color2:AppStyle.redColor ,
@@ -81,7 +85,9 @@ class Sign_outPage extends StatelessWidget {
 
         ],
         ),
-      )
+      );
+  },
+)
     );
   }
 

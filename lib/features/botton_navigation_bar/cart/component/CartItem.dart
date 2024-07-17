@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/cart_cubit.dart';
-import 'package:yiki1/features/botton_navigation_bar/cart/cart_state.dart';
 class CartItem extends StatelessWidget {
   CartItem({
     required this.image,

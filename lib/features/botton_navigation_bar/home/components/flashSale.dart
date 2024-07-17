@@ -31,7 +31,7 @@ class FlashSale extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
-                        return ProductDetailsBottonSheet();
+                        return ProductDetailsBottonSheet(id_: id,);
                       });
                   // Utils.showBottonSheet(context);
                   print( cubit.homeResponse!.data!.products!.items!.length);

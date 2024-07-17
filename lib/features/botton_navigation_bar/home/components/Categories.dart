@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/common_component/custom_category.dart';
+import 'package:yiki1/core/router.dart';
+import 'package:yiki1/features/botton_navigation_bar/catrgories/category/category_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/home_cubit.dart';
 
 class Categories extends StatelessWidget {
@@ -17,10 +19,17 @@ class Categories extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return CustomCategory(
-            image: "assets/images/Frame 1000003077.svg",
-            text1: cubit.homeResponse!.data!.categories![index].name.toString(),
-            text2: "${cubit.homeResponse!.data!.categories![index].products.toString()} Product",
+          return InkWell(
+            onTap: (){
+              var id= cubit.homeResponse!.data!.categories![index].id;
+              MagicRouter.navigateTo(CategoryPage(id:id!));
+
+            },
+            child: CustomCategory(
+              image: "assets/images/Frame 1000003077.svg",
+              text1: cubit.homeResponse!.data!.categories![index].name.toString(),
+              text2: "${cubit.homeResponse!.data!.categories![index].products.toString()} Product",
+            ),
           );
 
 

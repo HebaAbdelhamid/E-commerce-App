@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yiki1/common_component/custom_Main_header.dart';
 import 'package:yiki1/common_component/custom_button.dart';
+import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
 import 'package:yiki1/common_component/header.dart';
 import 'package:yiki1/core/router.dart';
@@ -41,7 +42,9 @@ class _LoginPageState extends State<LoginPage> {
             //           icon: const Icon(Icons.language)))
             // ],
             ),
-        body: SafeArea(
+        body: BlocBuilder<LoginCubit, LoginState>(
+  builder: (context, state) {
+    return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: SingleChildScrollView(
@@ -113,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           ],
                         ),
+                        state is LoadingLogInState?CustomLoading():
                         CustomButton(
                           bgColor: AppStyle.primaryColor,
                           textColor: Colors.white,
@@ -189,7 +193,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-        ),
+        );
+  },
+),
       ),
     );
   }

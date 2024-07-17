@@ -1,47 +1,41 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:html/parser.dart';
 import 'package:iconic/iconic.dart';
 import 'package:yiki1/common_component/Custom_home_price_count.dart';
+import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/catrgories/category/category_cubit.dart';
+import 'package:yiki1/features/botton_navigation_bar/catrgories/category/category_state.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/home_cubit.dart';
 
-class ProductDetailsBottonSheet extends StatefulWidget {
-   ProductDetailsBottonSheet( {
+class ProductDetailsBottonSheet extends StatelessWidget {
+   ProductDetailsBottonSheet(  {
+    required this. id_,
     super.key,
   });
-  @override
-  State<ProductDetailsBottonSheet> createState() => _ProductDetailsBottonSheetState();
-}
-
-class _ProductDetailsBottonSheetState extends State<ProductDetailsBottonSheet> {
-  final PageController pageController = PageController();
-  int count=1;
-
-  int currentIndex=0;
-  void nextPage() {
-    pageController.nextPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
-void previousPage() {
-  pageController.previousPage(
-    duration: Duration(milliseconds: 300),
-    curve: Curves.easeInOut,
-  );
-}
-
+   int id_;
   @override
   Widget build(BuildContext context) {
-    return  ListView(
+    return BlocProvider(
+  create: (context) => CategoryCubit()..fetchProduct(id_??1),
+  child: BlocBuilder<CategoryCubit, CategoryState>(
+  builder: (context, state) {
+    final cubit=BlocProvider.of<CategoryCubit>(context);
+    // final id=cubit.categoryProductResponse!.data!.items![0].id;
+
+    return state is LoadingCategoryState ||cubit.showProductResponse==null?CustomLoading():
+      ListView(
         shrinkWrap: true,
 
         children:[
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              SizedBox(height: 65,),
               IconButton(onPressed: (){
                 MagicRouter.pop();
               }, icon: Icon(Icons.close,color: Colors.red,size: 17,)
@@ -57,11 +51,9 @@ void previousPage() {
                   child: Container(
                     height: 263,
                     child: PageView(
-                      controller: pageController,
+                      controller: cubit.pageController,
                       onPageChanged: (int index) {
-                        setState(() {
-                          currentIndex = index;
-                        });
+                       cubit.selectedIndex_(index);
                       },
                       children: [
                         Image.asset(
@@ -106,7 +98,7 @@ void previousPage() {
                         child: DotsIndicator(
 
                           dotsCount: 5,
-                          position: currentIndex,
+                          position:cubit. currentIndex,
                           decorator: DotsDecorator(
                             activeColor:AppStyle.primaryColor, // Change to AppStyle.mainColor1 if defined
                             size: const Size.square(9.0),
@@ -123,12 +115,13 @@ void previousPage() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(onPressed: (){
-                        previousPage();
-                      }, icon: Icon(Iconic.angle_right)),
-                  SizedBox(width: MediaQuery.of(context).size.width*.77,),
+                        cubit.previousPage();
+                      }, icon:  Icon(Iconic.angle_left)),
+                      SizedBox(width: MediaQuery.of(context).size.width*.77,),
                       IconButton(onPressed: (){
-                        nextPage();
-                      }, icon: Icon(Iconic.angle_left)),
+                        cubit.nextPage();
+
+                      }, icon: Icon(Iconic.angle_right)),
 
                     ],
                   ),
@@ -136,7 +129,7 @@ void previousPage() {
               ]
           )
           ,SizedBox(height:17 ,),
-          Center(child: Text("Deodorant white mesk",style: TextStyle(color: AppStyle.blackColor,fontSize: 16,fontWeight: FontWeight.bold),)),
+          Center(child: Text("${cubit.showProductResponse!.data!.name}",style: TextStyle(color: AppStyle.blackColor,fontSize: 16,fontWeight: FontWeight.bold),)),
           SizedBox(height:20 ,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -162,23 +155,27 @@ void previousPage() {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             InkWell(
-                              onTap: (){
-                                setState(() {
-                                  count-=count-1;
+                                onTap: (){
 
-                                });
-                              },
+                                    cubit.decreament(id_);
+                                    print("object");
+                                  
+                                },
                                 child: PriceCount(title: '-',color:  Color(0xffdedcdc).withOpacity(.4),width: 34,)),
-                            PriceCount(title: '$count',color:Color(0xffdedcdc).withOpacity(.4),width: 34,),
+                            PriceCount(
+                              title: cubit.getItemCount( id_).toString(),
+                              color:Color(0xffdedcdc).withOpacity(.4),
+                              width: 34,),
                             InkWell(
-                              onTap: (){
+                                onTap: (){
+                                  print(cubit.count);
+                                  cubit.increament(id_);
+                                  // setState(() {
+                                  //   count=count+1;
+                                  //
+                                  // });
 
-                                  setState(() {
-                                    count=count+1;
-
-                                  });
-
-                              },
+                                },
                                 child: PriceCount(title: '+',color: Color(0xffdedcdc).withOpacity(.4),width: 34,)),
 
 
@@ -213,12 +210,7 @@ void previousPage() {
                 ),
                 SizedBox(height: 17,),
 
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
-                    "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "
-                    "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
-                    "consequat. Duis aute irure dolor in reprehenderit "
-                    "in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad minim veniam,"
-                    " quis nostrud exercitation ul.",style: TextStyle(color: AppStyle.lightBlackColor,fontSize: 13),),
+                Text("${parse(cubit.showProductResponse!.data!.description).body!.text}",style: TextStyle(color: AppStyle.lightBlackColor,fontSize: 13),),
 
 
 
@@ -242,7 +234,7 @@ void previousPage() {
                             color: AppStyle.lightBlackColor,fontSize: 13),
                       ),
                       TextSpan(
-                        text: " 850 EGP",
+                        text: "${cubit.showProductResponse!.data!.price} EGP",
                         style: TextStyle(
                             color: AppStyle.primaryColor,fontSize: 15,fontWeight: FontWeight.bold),
                       ),
@@ -257,7 +249,7 @@ void previousPage() {
                             color: AppStyle.lightBlackColor,fontSize: 15),
                       ),
                       TextSpan(
-                        text: " 850 EGP",
+                        text: "${cubit.showProductResponse!.data!.priceAfterDiscount} EGP",
                         style: TextStyle(
                             color: AppStyle.primaryColor,fontSize: 15,fontWeight: FontWeight.bold),
                       ),
@@ -269,17 +261,30 @@ void previousPage() {
               ),
             ),
           ),
+
           Container(
             // width: MediaQuery.of(context).size.width,
               height: 50,
               color: AppStyle.primaryColor,
-              child: Row(
+              child:state is LoadingState?Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 180.0,vertical: 10),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ): Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Iconic.shopping_cart,color: Colors.white,),
                   SizedBox(width: 5,) ,
-                  Text("Add to Cart".tr(),style:  TextStyle(
-                      color:Colors.white,fontSize: 15,fontWeight: FontWeight.bold),)
+                  TextButton(child: Text("Add to Cart".tr(),style:  TextStyle(
+                      color:Colors.white,fontSize: 15,fontWeight: FontWeight.bold),),
+                    onPressed: (){
+                    cubit.addToCart(id: id_.toString(),
+                      count: cubit.getItemCount(id_)
+                    );
+                    // cubit.addToCart(id: id)
+                    },
+                  )
                 ],
               )),
 
@@ -287,5 +292,10 @@ void previousPage() {
 
         ]
     );
+  },
+),
+);
   }
+  
 }
+

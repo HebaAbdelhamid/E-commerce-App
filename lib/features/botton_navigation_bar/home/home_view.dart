@@ -2,19 +2,20 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yiki1/common_component/BottonSheet/FilterBottonSheet.dart';
 import 'package:yiki1/common_component/Custom_sub_header_home.dart';
 import 'package:yiki1/common_component/custom_home_header.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/common_component/custom_new_arrival.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/botton_navigation_bar_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/catrgories/catrgories_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/components/Categories.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/components/customCarouselSlider.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/components/flashSale.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/components/products.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/home_state.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/product_search/product_search_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/discount_counpons/discount_counpons_view.dart';
 import 'package:yiki1/features/new_offer/new_offer_view.dart';
 import 'home_cubit.dart';
@@ -44,19 +45,7 @@ class HomePage extends StatelessWidget {
                                     const SizedBox(height: 10),
                                     CustomSubHeaderHome(
                                       function: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets
-                                                            .bottom),
-                                                child:
-                                                    const FilterBottonSheet(),
-                                              );
-                                            });
+                                        MagicRouter.navigateTo(ProductSearchPage());
                                       },
                                     ),
                                     const SizedBox(
@@ -160,7 +149,7 @@ class HomePage extends StatelessWidget {
                                                 ),
                                                 onPressed: () {
                                                   MagicRouter.navigateTo(
-                                                      CatrgoriesPage());
+                                                      BottonNavigationBarPage(currentIndex: 1,));
                                                 },
                                               ),
                                             ))

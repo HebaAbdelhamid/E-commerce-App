@@ -2,7 +2,6 @@ import 'package:another_stepper/widgets/another_stepper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yiki1/common_component/BottonSheet/RatingPage.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/components/customHeader.dart';
 
