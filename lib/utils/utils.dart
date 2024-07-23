@@ -1,6 +1,8 @@
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconic/iconic.dart';
 import 'package:yiki1/common_component/BottonSheet/ChangePasswordBottonSheet.dart';
@@ -8,6 +10,7 @@ import 'package:yiki1/common_component/BottonSheet/botton_sheet_productDetails.d
 import 'package:yiki1/common_component/pop_up.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/botton_navigation_bar_view.dart';
 import 'package:yiki1/features/google_map/add_new_address/components/Countries.dart';
 
 import '../features/botton_navigation_bar/more/account_setting/account_setting_view.dart';
@@ -16,7 +19,7 @@ abstract class Utils {
   static void showSnackBar(text) {
     ScaffoldMessenger.of(MagicRouter.currentContext).showSnackBar(
       SnackBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: AppStyle.primaryColor,
         content: Text(text),
       ),
     );
@@ -120,6 +123,11 @@ abstract class Utils {
     showDialog(
         context: context,
         builder: (context) {
+          Future.delayed( 900.milliseconds,() {
+            Navigator.of(context).pop();
+            MagicRouter.navigateTo(BottonNavigationBarPage(currentIndex: 0,));
+
+          });
           return AlertDialog(
               content: PopupCardDetails3(
             text1:

@@ -1,12 +1,16 @@
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/common_component/CartDetails.dart';
 import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
+import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/botton_navigation_bar_view.dart';
 import 'package:yiki1/utils/utils.dart';
 
 import '../complete_order_cubit.dart';
@@ -208,6 +212,10 @@ class CompletePayment extends StatelessWidget {
                           // print("==========${cubit.paymentMethod}");
                           cubit.addPaymentMethods(
                               "20", cubit.paymentMethod, gift);
+
+
+
+
                           Utils.completeOrder(context);
                           // Utils.verifyAccount(context);
                         },
