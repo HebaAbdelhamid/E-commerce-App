@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/common_component/custom_horizontal_category.dart';
 import 'package:yiki1/core/router.dart';
@@ -6,18 +7,25 @@ import 'package:yiki1/features/botton_navigation_bar/catrgories/category/categor
 import 'package:yiki1/features/botton_navigation_bar/catrgories/catrgories_cubit.dart';
 
 class Categories extends StatelessWidget {
-  const Categories({
+   Categories({
     super.key,
   });
-
+var startAnimation;
   @override
   Widget build(BuildContext context) {
     final cubit =BlocProvider.of<CatrgoriesCubit>(context);
+
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+cubit.animation();
+
+      });
+
     print(cubit.categoryResponse!.data!.items![0].subCategories![0].name);
 print(  "${ cubit.categoryResponse!.data!.items![0].subCategories![0].description} ===========",);
     return ListView.separated(
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
+        var time=500*1.7*index;
         return InkWell(
             onTap: () {
               var id=cubit.categoryResponse!.data!.items![index].id;
@@ -28,7 +36,7 @@ print(  "${ cubit.categoryResponse!.data!.items![0].subCategories![0].descriptio
               image: "assets/images/Frame 1000003077.svg",
               text1: cubit.categoryResponse!.data!.items![index].name.toString(),
               text2: "${ cubit.categoryResponse!.data!.items![index].products.toString()} Product",
-            ));
+            )).animate().fadeIn( duration:time.ms);
       },
       itemCount: cubit.categoryResponse!.data!.items!.length,
 

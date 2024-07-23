@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:yiki1/core/app_storage/app_storage.dart';
 import 'package:yiki1/core/dio_helper/dio_helper.dart';
+import 'package:yiki1/core/helper/firebase_message.dart';
+import 'package:yiki1/core/helper/notificationsServices.dart';
 import 'package:yiki1/core/models/user_model.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/validate.dart';
@@ -26,11 +28,14 @@ class LoginCubit extends Cubit<LoginState> {
      "email":email.text,
      "password":password.text,
      "type":"android",
-     "token":"token"
+     "token":"${FirebaseMessage().initNotification()}"
    };
    Response response=await DioHelper.post("auth/login", false,body: body);
    final data =response.data as Map<String,dynamic>;
    if(data["status"]==true){
+    FirebaseMessage().initNotification();
+    Notificationsservices().showNotification(1, "Hello", "Welcome to Yuki app", "payload");
+
      emit(SuccessLogInState());
      final UserModel userModel = UserModel.fromJson(data);
      AppStorage.cacheUserInfo(userModel);

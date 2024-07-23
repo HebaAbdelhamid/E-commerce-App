@@ -57,6 +57,12 @@ dependencies:
   loading_animation_widget: ^1.2.1
   image_picker:
   html:
+  firebase_core:
+  firebase_messaging:
+  firebase_analytics: ^10.8.0
+  flutter_local_notifications:
+  lottie:
+  flutter_animate:
 
 
 
@@ -92,6 +98,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lang/
+    - assets/
 
   #   - images/a_dot_ham.jpeg
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconic/iconic.dart';
 import 'package:yiki1/common_component/BottonSheet/botton_sheet_productDetails.dart';
@@ -50,7 +51,7 @@ class FlashSale extends StatelessWidget {
                           "assets/images/Rectangle 12349.png",
                           width: MediaQuery.of(context).size.width * .47,
                           height: MediaQuery.of(context).size.width * .39,
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.cover,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -61,15 +62,13 @@ class FlashSale extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Expanded(
-                                    child: Text(cubit.homeResponse!.data!.products!.items![index].name.toString(),
-                                      style: const TextStyle(
-                                        color: Color(0xff252525),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                                  Text(cubit.homeResponse!.data!.products!.items![index].name.toString(),
+                                    style: const TextStyle(
+                                      color: Color(0xff252525),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   IconButton(
                                       onPressed: () {
@@ -157,8 +156,8 @@ class FlashSale extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 5),
                                   Container(
-                                    width: 44,
-                                    height: 35,
+                                    width: MediaQuery.of(context).size.width*.12,
+                                    height: MediaQuery.of(context).size.height*.05,
                                     decoration: BoxDecoration(
                                         color: AppStyle.primaryColor,
                                         borderRadius: BorderRadius.circular(5)),
@@ -170,7 +169,7 @@ class FlashSale extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         cubit.addToCart(
-                                          id: cubit.homeResponse!.data!.products!.items![0].id
+                                          id: cubit.homeResponse!.data!.products!.items![index].id
                                               .toString(),
                                           count: cubit.getItemCount(id).toString(),
                                         );print("==============ttttttt>${cubit.getItemCount(id).toString()}");
@@ -186,7 +185,8 @@ class FlashSale extends StatelessWidget {
                         )
                       ],
                     ),
-                  ),
+                  ).animate()  .move(duration: 800.ms) // runs after the above w/new duration
+                  ,
                 )
 
               );

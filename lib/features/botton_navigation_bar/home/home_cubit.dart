@@ -12,8 +12,12 @@ import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(InitialState());
+  int selectProducts=0;
+  selectProducts_(index){
+    selectProducts=index;
+  }
   bool selected = true;
-  int selectedIndex = 0;
+  int ?selectedIndex ;
 selectedIndex_(index){
 selectedIndex=index;
 }

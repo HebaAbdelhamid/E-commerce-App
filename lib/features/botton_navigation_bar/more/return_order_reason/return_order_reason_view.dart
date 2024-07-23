@@ -166,72 +166,70 @@ class ReturnOrderReasonPage extends StatelessWidget {
                     //     },
                     //   ),
                     // ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height*.2,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          var itemId =cubit.orderDetailsResponse!.data!.items![index].id;
-                           quantity=cubit.orderDetailsResponse!.data!.items![index].quantity;
-                           productId=cubit.orderDetailsResponse!.data!.items![index].productId;
-                           id=cubit.orderDetailsResponse!.data!.items![index].id;
-                          print(cubit.orderDetailsResponse!.data!.items![index].productId);
-                          print(cubit.orderDetailsResponse!.data!.items![index].id);
-                           return Row(
-                            children: [
-                              Container(
-                                width:60,
-                                height: 129,
-                                decoration: BoxDecoration(
-                                    color: AppStyle.primaryColor,
-                                    borderRadius: BorderRadius.circular(7)),
-                                child: Column(
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          if(cubit.getItemCount(itemId! )< cubit.orderDetailsResponse!.data!.items![index].quantity!.toInt())
-                                          cubit.increament(itemId);
+                    ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        var itemId =cubit.orderDetailsResponse!.data!.items![index].id;
+                         quantity=cubit.orderDetailsResponse!.data!.items![index].quantity;
+                         productId=cubit.orderDetailsResponse!.data!.items![index].productId;
+                         id=cubit.orderDetailsResponse!.data!.items![index].id;
+                        print(cubit.orderDetailsResponse!.data!.items![index].productId);
+                        print(cubit.orderDetailsResponse!.data!.items![index].id);
+                         return Row(
+                          children: [
+                            Container(
+                              width:60,
+                              height: MediaQuery.of(context).size.height*.2,
+                              decoration: BoxDecoration(
+                                  color: AppStyle.primaryColor,
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Column(
+                                children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        if(cubit.getItemCount(itemId! )< cubit.orderDetailsResponse!.data!.items![index].quantity!.toInt())
+                                        cubit.increament(itemId);
 
-                                        },
-                                        child: const Text(
-                                          "+",
-                                          style: TextStyle(fontSize: 20, color: Colors.white),
-                                        )),
-                                    Text(
-                                      cubit.getItemCount(itemId! ).toString(),
-                                      style: TextStyle(fontSize: 22, color: Colors.white),
-                                    ),
-                                    TextButton(
-                                        onPressed: () {
-                                          if(cubit.getItemCount(itemId )>1)
-                                            cubit.decreament(itemId);
+                                      },
+                                      child: const Text(
+                                        "+",
+                                        style: TextStyle(fontSize: 20, color: Colors.white),
+                                      )),
+                                  Text(
+                                    cubit.getItemCount(itemId! ).toString(),
+                                    style: TextStyle(fontSize: 22, color: Colors.white),
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
+                                        if(cubit.getItemCount(itemId )>1)
+                                          cubit.decreament(itemId);
 
-                                        },
-                                        child: const Text(
-                                          "-",
-                                          style: TextStyle(fontSize: 24, color: Colors.white),
-                                        )),
-                                  ],
-                                ),
+                                      },
+                                      child: const Text(
+                                        "-",
+                                        style: TextStyle(fontSize: 24, color: Colors.white),
+                                      )),
+                                ],
                               ),
-                              const SizedBox(
-                                  width: 10
-                              ),
-                              CartItem(
-                                  image: "Rectangle 12349.png",
-                                  title: "${cubit.orderDetailsResponse!.data!.items![index].productName??""}",
-                                  price: "${cubit.orderDetailsResponse!.data!.items![index].price??""}",
-                                  count: 9,
-                                  id: 1,
-                                ),]);
-                        },
-                        itemCount:1,
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 17,
-                          );
-                        },
-                      ),
+                            ),
+                            const SizedBox(
+                                width: 10
+                            ),
+                            CartItem(
+                                image: "Rectangle 12349.png",
+                                title: "${cubit.orderDetailsResponse!.data!.items![index].productName??""}",
+                                price: "${cubit.orderDetailsResponse!.data!.items![index].price??""}",
+                                count: 9,
+                                id: 1,
+                              ),]);
+                      },
+                      itemCount:1,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 17,
+                        );
+                      },
                     ),
                     const SizedBox(
                       height: 13,
@@ -275,34 +273,34 @@ class ReturnOrderReasonPage extends StatelessWidget {
                     const SizedBox(
                       height: 13,
                     ),
-                     Text(
-                      "Attach Image(s)".tr(),
-                      style: const TextStyle(
-                          color: AppStyle.blackColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
-                    const SizedBox(
-                      height: 17,
-                    ),
-                    InkWell(
-                      onTap: (){},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                      Image.asset("assets/images/Group 4375.png"),
-                          Column(
-                            children: [
-                               Text("Attach image or more".tr(),style: TextStyle(color: AppStyle.blackColor,fontSize: 13),),
-                              Text("Pdf , Png , Jpg , Jpeg",style: TextStyle(color: Colors.grey.withOpacity(.9),fontSize: 13),),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 17,
-                    ),
+                    //  Text(
+                    //   "Attach Image(s)".tr(),
+                    //   style: const TextStyle(
+                    //       color: AppStyle.blackColor,
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 17),
+                    // ),
+                    // const SizedBox(
+                    //   height: 17,
+                    // ),
+                    // InkWell(
+                    //   onTap: (){},
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //     children: [
+                    //   Image.asset("assets/images/Group 4375.png"),
+                    //       Column(
+                    //         children: [
+                    //            Text("Attach image or more".tr(),style: TextStyle(color: AppStyle.blackColor,fontSize: 13),),
+                    //           Text("Pdf , Png , Jpg , Jpeg",style: TextStyle(color: Colors.grey.withOpacity(.9),fontSize: 13),),
+                    //         ],
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 17,
+                    // ),
                     CustomButton(
                       title: "Return ".tr(),
                       function: () {

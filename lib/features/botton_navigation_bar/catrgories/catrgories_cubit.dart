@@ -8,6 +8,10 @@ import 'catrgories_state.dart';
 
 class CatrgoriesCubit extends Cubit<CatrgoriesState> {
   CatrgoriesCubit() : super(InitialCatrgoriesState());
+  var startAnimation=false;
+  animation() {
+    startAnimation = true;
+  }
   CategoryModel ?categoryResponse;
   fetchCategory()async{
     emit(LoadingCatrgoriesState());

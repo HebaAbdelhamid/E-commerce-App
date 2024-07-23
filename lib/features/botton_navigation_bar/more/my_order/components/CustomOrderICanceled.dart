@@ -16,6 +16,7 @@ class CustomOrderCanceled extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder:(context,index)
         {
           return Container(

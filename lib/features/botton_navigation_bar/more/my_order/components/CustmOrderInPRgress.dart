@@ -16,7 +16,9 @@ class CustmorderInPRogress extends StatelessWidget{
    SizedBox(
      height: 700,
      child:
-     ListView.separated(itemBuilder: (context,index){
+     ListView.separated(
+       physics: BouncingScrollPhysics(),
+         itemBuilder: (context,index){
        return
          // cubit.orderResponse!.data!.items![index].status=="in_delivery"?
 
@@ -26,140 +28,136 @@ class CustmorderInPRogress extends StatelessWidget{
            MagicRouter.navigateTo(OrderDetailsPage(id));
 
          },
-         child: Column(
-           children: [
-             // CustomOrderInDelivered(),
-
-             Container(
-               decoration:BoxDecoration(color: Colors.grey.withOpacity(.2),borderRadius: BorderRadius.circular(5)) ,
-               child: Padding(
-                 padding: const EdgeInsets.all(17),
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
+         child: Container(
+           decoration:BoxDecoration(color: Colors.grey.withOpacity(.2),borderRadius: BorderRadius.circular(5)) ,
+           child: Padding(
+             padding: const EdgeInsets.all(17),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Row(
                    children: [
-                     Row(
-                       children: [
-                         Text(
-                           "Order no. : ".tr(),
-                           style: TextStyle(
-                               color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
-                         ),
-                         Text("${cubit.orderResponse!.data!.items![index].id}",
-                             style: TextStyle(color: AppStyle.blackColor, fontWeight: FontWeight.bold)),
-                         Expanded(child: SizedBox()),
-
-                         Text("${cubit.orderResponse!.data!.items![index].grandTotalAfterDeposit} EGP",
-                             style: TextStyle(color: AppStyle.primaryColor, fontWeight: FontWeight.bold)),
-                       ],
-                     ),
-                     Row(
-                       children: [
-                         Text(
-                           "Order Status :  ".tr(),
-                           style: TextStyle(
-                               color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
-                         ),
-                         Text("${cubit.orderResponse!.data!.items![index].status}".tr(),
-                             style: TextStyle(color: AppStyle.blackColor, fontWeight: FontWeight.bold)),
-                         // SizedBox(width: MediaQuery.of(context).size.width*.27,),
-                       ],
-                     ),
                      Text(
-                       maxLines: 1,
-                       "${cubit.orderResponse!.data!.items![index].date}",
+                       "Order no. : ".tr(),
                        style: TextStyle(
                            color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
-                    overflow: TextOverflow.ellipsis, ),
-                     SizedBox(height: 23,),
+                     ),
+                     Text("${cubit.orderResponse!.data!.items![index].id}",
+                         style: TextStyle(color: AppStyle.blackColor, fontWeight: FontWeight.bold)),
+                     Expanded(child: SizedBox()),
 
-                     cubit.orderResponse!.data!.items![index].statusKey=="in_delivery"?
-       InkWell(
-       onTap: (){
-       MagicRouter.navigateTo(OrderTrackingPage());
-       },
-       child: Container(
-       width: MediaQuery.of(context).size.width,
-       height: 40,
-       decoration: BoxDecoration(color: AppStyle.primaryColor,borderRadius: BorderRadius.circular(5)),
-       child: Row(
-       mainAxisAlignment: MainAxisAlignment.center,
-       children: [
-       Text("Track".tr(),
-       style: TextStyle(
-       color: Colors.white,
-       fontWeight: FontWeight.bold,fontSize: 15),),
+                     Text("${cubit.orderResponse!.data!.items![index].grandTotalAfterDeposit} EGP",
+                         style: TextStyle(color: AppStyle.primaryColor, fontWeight: FontWeight.bold)),
+                   ],
+                 ),
+                 Row(
+                   children: [
+                     Text(
+                       "Order Status :  ".tr(),
+                       style: TextStyle(
+                           color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
+                     ),
+                     Expanded(
+                       child: Text("${cubit.orderResponse!.data!.items![index].status}".tr(),
+                           style: TextStyle(color: AppStyle.blackColor, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),
+                     ),
+                     // SizedBox(width: MediaQuery.of(context).size.width*.27,),
+                   ],
+                 ),
+                 Text(
+                   // maxLines: 1,
+                   "${cubit.orderResponse!.data!.items![index].date}",
+                   style: TextStyle(
+                       color: Colors.grey.withOpacity(.9), fontWeight: FontWeight.bold, fontSize: 15),
+                overflow: TextOverflow.ellipsis, ),
+                 SizedBox(height: 23,),
 
-       ],
-       ),
-       ),
-       ):
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                       children: [
+                 cubit.orderResponse!.data!.items![index].statusKey=="in_delivery"?
+                InkWell(
+                onTap: (){
+                MagicRouter.navigateTo(OrderTrackingPage());
+                },
+                child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                decoration: BoxDecoration(color: AppStyle.primaryColor,borderRadius: BorderRadius.circular(5)),
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Text("Track".tr(),
+                style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,fontSize: 15),),
 
-                         InkWell(
-                           onTap: (){
-                             MagicRouter.navigateTo(OrderTrackingPage());
-                           },
-                           child: Container(
-                             width: MediaQuery.of(context).size.width*.37,
-                             height: 40,
-                             decoration: BoxDecoration(color: AppStyle.primaryColor,borderRadius: BorderRadius.circular(5)),
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: [
-                                 Text("Track".tr(),
-                                   style: TextStyle(
-                                       color: Colors.white,
-                                       fontWeight: FontWeight.bold,fontSize: 15),),
+                ],
+                ),
+                ),
+                ):
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                   children: [
 
-                               ],
-                             ),
-                           ),
+                     InkWell(
+                       onTap: (){
+                         MagicRouter.navigateTo(OrderTrackingPage());
+                       },
+                       child: Container(
+                         width: MediaQuery.of(context).size.width*.37,
+                         height: 40,
+                         decoration: BoxDecoration(color: AppStyle.primaryColor,borderRadius: BorderRadius.circular(5)),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             Text("Track".tr(),
+                               style: TextStyle(
+                                   color: Colors.white,
+                                   fontWeight: FontWeight.bold,fontSize: 15),),
+
+                           ],
                          ),
-                         InkWell(
-                           onTap: (){
-                            var id= cubit.orderResponse!.data!.items![index].id;
-                             cubit.postCancelOrders(id);
-                           },
-                           child: Container(
+                       ),
+                     ),
+                     InkWell(
+                       onTap: (){
+                        var id= cubit.orderResponse!.data!.items![index].id;
+                         cubit.postCancelOrders(id);
+                       },
+                       child: Container(
 
-                             width: MediaQuery.of(context).size.width*.37,
-                             height: 40,
-                             decoration: BoxDecoration(color:  Colors.white,borderRadius: BorderRadius.circular(5)),
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: [
-                                 Text("Cancel order".tr(),
-                                   style: TextStyle(
-                                       color: AppStyle.redColor,
-                                       fontWeight: FontWeight.bold,fontSize: 15),),
+                         width: MediaQuery.of(context).size.width*.37,
+                         height: 40,
+                         decoration: BoxDecoration(color:  Colors.white,borderRadius: BorderRadius.circular(5)),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             Text("Cancel order".tr(),
+                               style: TextStyle(
+                                   color: AppStyle.redColor,
+                                   fontWeight: FontWeight.bold,fontSize: 15),),
 
-                               ],
-                             ),
-                           ),
-                         )
-                         // CustomButton(title: "Track", function: (){}, bgColor:AppStyle.primaryColor , textColor: Colors.white),
-
-
-                         // InkWell(
-                         //   onTap: (){
-                         //     MagicRouter.pop();
-                         //   },
-                         //   child:
-                         //   CustomCategoryName(width: MediaQuery.of(context).size.width*.4, text: 'Past Orders', color1:Colors.white ,color2:AppStyle.redColor ,),
-                         //   ),
-
-
-                       ],
+                           ],
+                         ),
+                       ),
                      )
+                     // CustomButton(title: "Track", function: (){}, bgColor:AppStyle.primaryColor , textColor: Colors.white),
+
+
+                     // InkWell(
+                     //   onTap: (){
+                     //     MagicRouter.pop();
+                     //   },
+                     //   child:
+                     //   CustomCategoryName(width: MediaQuery.of(context).size.width*.4, text: 'Past Orders', color1:Colors.white ,color2:AppStyle.redColor ,),
+                     //   ),
 
 
                    ],
-                 ),
-               ),
+                 )
+
+
+               ],
              ),
-           ],
+           ),
          ),
        );
 

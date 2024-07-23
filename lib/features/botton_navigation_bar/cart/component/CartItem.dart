@@ -24,7 +24,7 @@ class CartItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * .7,
-      height: MediaQuery.of(context).size.width * .37,
+      height: MediaQuery.of(context).size.width * .39,
       decoration: BoxDecoration(
         color: Colors.grey.withOpacity(.2),
         borderRadius: BorderRadius.circular(5),
@@ -39,14 +39,14 @@ class CartItem extends StatelessWidget {
               "assets/images/$image",
               width: MediaQuery.of(context).size.width * .24,
               height: MediaQuery.of(context).size.width * .3,
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
             ),
             const SizedBox(
               width: 5
             ),
             SizedBox(
-              height: 100,
-              width: MediaQuery.of(context).size.width * .34,
+              // height: 100,
+              width: MediaQuery.of(context).size.width * .31,
               child: ListTile(
                 title: Text(
                   title,
@@ -74,6 +74,7 @@ class CartItem extends StatelessWidget {
                     ],
                   ),
                 ),
+
               ),
             ),
              Expanded(
@@ -82,10 +83,7 @@ class CartItem extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: function
-                      //     () {
-                      //   print(id);
-                      //   cubit.deleteCartItems(int.parse(id.toString()));
-                      // }
+
                       ,
                       icon: const Icon(Icons.delete_outlined,
                           color: AppStyle.redColor)),

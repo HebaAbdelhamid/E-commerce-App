@@ -20,7 +20,7 @@ class ProductItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height:MediaQuery.of(context).size.height * .14,
+          height:MediaQuery.of(context).size.height * .17,
           width: MediaQuery.of(context).size.width * .1,
 
           decoration: BoxDecoration(

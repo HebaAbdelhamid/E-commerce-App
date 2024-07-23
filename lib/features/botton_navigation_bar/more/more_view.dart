@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yiki1/common_component/BottonSheet/app_language.dart';
@@ -116,7 +117,7 @@ class MorePage extends StatelessWidget {
                           MagicRouter.navigateTo(Account_settingPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:400.ms),
 
                       CustomMoreItem(
                         image: "assets/images/box-time.png",
@@ -125,14 +126,14 @@ class MorePage extends StatelessWidget {
                           MagicRouter.navigateTo(MyOrderPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:600.ms),
                       CustomMoreItem(
                         image: "assets/images/box-time.png",
                         text: "Return Orders".tr(),
                         function: () {
                           MagicRouter.navigateTo(ReturnOrdersPage());
                         },
-                      ),
+                      ).animate().fadeIn( duration:800.ms),
                       CustomMoreItem(
                         image: "assets/images/Point On Map.png",
                         text: "Delivery Addresses".tr(),
@@ -142,7 +143,7 @@ class MorePage extends StatelessWidget {
                           // MagicRouter.navigateTo(Delivery_addressPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:800.ms),
                       CustomMoreItem(
                         image: "assets/images/i.png",
                         text: "Favorite Products".tr(),
@@ -150,7 +151,7 @@ class MorePage extends StatelessWidget {
                           MagicRouter.navigateTo(FavouriteProductPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:1000.ms),
                       CustomMoreItem(
                         image: "assets/images/Tag.png",
                         text: "Flash Sale".tr(),
@@ -158,7 +159,7 @@ class MorePage extends StatelessWidget {
                           MagicRouter.navigateTo(NewOfferPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:800.ms),
                       CustomMoreItem(
                         image: "assets/images/a2.png",
                         text: "My Wallet".tr(),
@@ -166,7 +167,7 @@ class MorePage extends StatelessWidget {
                           MagicRouter.navigateTo(WalletPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:900.ms),
                       CustomMoreItem(
                         image: "assets/images/ii.png",
                         text: "Loyalty Points".tr(),
@@ -174,14 +175,14 @@ class MorePage extends StatelessWidget {
                         MagicRouter.navigateTo(LoyaltyPointsPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:1000.ms),
                       CustomMoreItem(
                         image: "assets/images/iii.png",
                         text: "Discount Coupons".tr(),
                         function: () {
                          MagicRouter.navigateTo(Discount_counponsPage());
                         },
-                      ),
+                      ).animate().fadeIn( duration:1200.ms),
                       CustomMoreItem(
                         image: "assets/images/iiii.png",
                         text: "App Language".tr(),
@@ -192,14 +193,14 @@ class MorePage extends StatelessWidget {
                                 return AppLanguagePage();
                               });
                         },
-                      ),
+                      ).animate().fadeIn( duration:1400.ms),
                       CustomMoreItem(
                         image: "assets/images/Sticker Circle.png",
                         text: "Terms&Conditions".tr(),
                         function: () {
                           MagicRouter.navigateTo(TermsConditionsPage());
                         },
-                      ),
+                      ).animate().fadeIn( duration:1600.ms),
                       CustomMoreItem(
                         image: "assets/images/iiiii.png",
                         text: "About the App".tr(),
@@ -208,7 +209,7 @@ class MorePage extends StatelessWidget {
                           MagicRouter.navigateTo(AboutPage());
 
                         },
-                      ),
+                      ).animate().fadeIn( duration:1800.ms),
                       CustomMoreItem(
                         image: "assets/images/iiiiiiiiii.png",
                         text: "Share With Frinds".tr(),
@@ -219,14 +220,14 @@ class MorePage extends StatelessWidget {
                                 return Shared_ApplicationPage();
                               });
                         },
-                      ),
+                      ).animate().fadeIn( duration:1800.ms),
                       CustomMoreItem(
                         image: "assets/images/Chat Round Line.png",
                         text: "Contact Us".tr(),
                         function: () {
                           MagicRouter.navigateTo(Contact_asPage());
                         },
-                      ),
+                      ).animate().fadeIn( duration:1800.ms),
                       CustomMoreItem(
                         image: "assets/images/iiiiiiii.png",
                         text: "Signout".tr(),
@@ -237,7 +238,7 @@ class MorePage extends StatelessWidget {
                                 return Sign_outPage();
                               });
                         },
-                      ),
+                      ).animate().fadeIn( duration:1800.ms),
                     ]))));
   }
 }

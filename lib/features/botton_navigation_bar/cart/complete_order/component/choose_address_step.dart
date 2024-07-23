@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:yiki1/common_component/custom_button.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/core/router.dart';
+import 'package:yiki1/features/botton_navigation_bar/cart/complete_order/component/complete_payment.dart';
 import 'package:yiki1/features/google_map/add_new_address/add_new_address_view.dart';
 import 'package:yiki1/features/google_map/add_new_address/update_new_address_view.dart';
 
@@ -14,7 +15,6 @@ import '../complete_order_state.dart';
 
 class ChooseAddressStep extends StatelessWidget {
   const ChooseAddressStep({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,8 +25,9 @@ class ChooseAddressStep extends StatelessWidget {
 
           return Column(
             children: [
-              state is LoadingState?CustomLoading():cubit.getAddressResponse==null?Text("No Address Entered ")
-              :SizedBox(
+              state is LoadingState ? CustomLoading() : cubit
+                  .getAddressResponse == null ? Text("No Address Entered ")
+                  : SizedBox(
                 height: 280,
                 width: 500,
                 child: CustomAddress(cubit: cubit),
@@ -35,7 +36,7 @@ class ChooseAddressStep extends StatelessWidget {
                 height: 11,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   MagicRouter.navigateTo(AddNewAddressPage());
                 },
                 child: Row(
@@ -47,7 +48,7 @@ class ChooseAddressStep extends StatelessWidget {
                     const Text(
                       "Add New Address",
                       style:
-                          TextStyle(color: AppStyle.primaryColor, fontSize: 15),
+                      TextStyle(color: AppStyle.primaryColor, fontSize: 15),
                     )
                   ],
                 ),
@@ -56,7 +57,8 @@ class ChooseAddressStep extends StatelessWidget {
                   title: "Continue to checkout",
                   function: () {
                     cubit.changeStep(index: 1);
-
+                    print("addresss${cubit.selectedAddress.toString()}");
+                    // print(cubit.getAddressResponse!.data.toString());
                   },
                   bgColor: AppStyle.primaryColor,
                   textColor: Colors.white)
@@ -80,10 +82,12 @@ class CustomAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         itemBuilder: (context, index) {
-          int? indexx=cubit.getAddressResponse!.data![index].id;
+          int? indexx = cubit.getAddressResponse!.data![index].id;
 
           return InkWell(
             onTap: () {
+              print(indexx);
+              print(cubit.selectedAddress);
               cubit.selesctedContainer(index);
               cubit.selectedAddress_(indexx);
             },
@@ -93,14 +97,15 @@ class CustomAddress extends StatelessWidget {
               text3: "${cubit.getAddressResponse!.data![index].city}",
               text4: "set as a default",
               color:
-                  cubit.selected == index ? AppStyle.primaryColor : Colors.grey,
-           function: (){
-
-             cubit.deleteItems(indexx!);
+              cubit.selected == index ? AppStyle.primaryColor : Colors.grey,
+              function: () {
+                cubit.deleteItems(indexx!);
                 cubit.getAddressResponse!.data![index].id;
                 print(cubit.getAddressResponse!.data![index].id.runtimeType);
-                },
-              function_: ()=>MagicRouter.navigateTo(UpdateNewAddressPage(index: indexx,cubit)),
+              },
+              function_: () =>
+                  MagicRouter.navigateTo(
+                      UpdateNewAddressPage(index: indexx, cubit)),
             ),
           );
         },

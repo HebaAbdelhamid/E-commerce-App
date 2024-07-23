@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconic/iconic.dart';
@@ -9,6 +10,7 @@ import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/common_component/custom_text_field.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/animation/welcome.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/cart_state.dart';
 import 'package:yiki1/features/botton_navigation_bar/cart/component/shopingCart.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/notification/notification_view.dart';
@@ -25,7 +27,9 @@ class CartPage extends StatelessWidget {
     final cubit = BlocProvider.of<CartCubit>(context);
 
     return state is LoadingCartState
-        ? Center(child: const CustomLoading()) :Scaffold(
+        ? Center(child:  WelcomeAnimation()) :cubit.getCartResponse==null?                              Center(child: Image.asset("assets/images/empty-cart.png",height: 490,))
+:
+    Scaffold(
         backgroundColor: Colors.white,
         appBar:AppBar(
           leading: CircleAvatar(
@@ -48,7 +52,7 @@ class CartPage extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(Iconic.bell),
                       onPressed: () {
-                        MagicRouter.navigateTo(NotificationPage());
+                        // MagicRouter.navigateTo(NotificationPage());
                       },
                     )),
                 CircleAvatar(
@@ -154,20 +158,20 @@ class CartPage extends StatelessWidget {
                               titleColor: Colors.grey.withOpacity(.9),
                               title: "No. Of Products",
                               priceColor: AppStyle.lightBlack,
-                              price: "7",
-                            ),
+                              price: "${cubit.getCartResponse!.data!.order!.productsCount}",
+                            ).animate().fadeIn(duration: 500.milliseconds),
                             CartDetails(
                               titleColor: Colors.grey.withOpacity(.9),
                               title: "Price",
                               priceColor: AppStyle.lightBlack,
-                              price: "810",
-                            ),
+                              price: "${cubit.getCartResponse!.data!.order!.grandTotalAfterDeposit}",
+                            ).animate().fadeIn(duration: 500.milliseconds),
                             CartDetails(
                               titleColor: AppStyle.primaryColor,
                               title: "Total Price",
                               priceColor: AppStyle.primaryColor,
-                              price: "750",
-                            ),
+                              price: "${cubit.getCartResponse!.data!.order!.grandTotalAfterDeposit}",
+                            ).animate().fadeIn(duration: 500.milliseconds),
                             Padding(
                               padding:
                               const EdgeInsets.symmetric(vertical: 18.0),
@@ -181,7 +185,7 @@ class CartPage extends StatelessWidget {
                                 bgColor: AppStyle.primaryColor,
                                 textColor: Colors.white,
                               ),
-                            ),
+                            ).animate().fadeIn(duration: 500.milliseconds),
                           ],
                         ),
 
@@ -190,9 +194,11 @@ class CartPage extends StatelessWidget {
                     )
                   ],
                 ),
-              )
-        )
-      );
+              )                                        .animate()  .move( duration: 800.ms),
+
+        )                                           .animate()  .move(duration: 800.ms),
+
+    );
   },
 ),
     );

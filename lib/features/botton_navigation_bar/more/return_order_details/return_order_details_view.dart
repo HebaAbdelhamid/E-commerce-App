@@ -212,30 +212,30 @@ class ReturnOrderDetailsPage extends StatelessWidget {
                     SizedBox(
                       height: 13,
                     ),
-                     Text(
-                      "Attachments".tr(),
-                      style: TextStyle(
-                          color: AppStyle.blackColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
-                    SizedBox(
-                      height: 17,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height*.15,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                          itemBuilder: (context,index){
-                      return Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(7)),
-                        child: Image.asset("assets/images/image11.png",width: MediaQuery.of(context).size.width*.4,fit: BoxFit.cover,),
-
-                      );
-                      }, separatorBuilder: (context,index){
-                        return SizedBox(width: 7,);
-                      }, itemCount: 7),
-                    )
+                    //  Text(
+                    //   "Attachments".tr(),
+                    //   style: TextStyle(
+                    //       color: AppStyle.blackColor,
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 17),
+                    // ),
+                    // SizedBox(
+                    //   height: 17,
+                    // ),
+                    // SizedBox(
+                    //   height: MediaQuery.of(context).size.height*.15,
+                    //   child: ListView.separated(
+                    //     scrollDirection: Axis.horizontal,
+                    //       itemBuilder: (context,index){
+                    //   return Container(
+                    //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(7)),
+                    //     child: Image.asset("assets/images/image11.png",width: MediaQuery.of(context).size.width*.4,fit: BoxFit.cover,),
+                    //
+                    //   );
+                    //   }, separatorBuilder: (context,index){
+                    //     return SizedBox(width: 7,);
+                    //   }, itemCount: 7),
+                    // )
 
                     // Container(
                     //   decoration: BoxDecoration(

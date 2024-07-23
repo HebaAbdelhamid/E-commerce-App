@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yiki1/core/dio_helper/dio_helper.dart';
+import 'package:yiki1/core/models/cart_model/cart_model.dart';
 import 'package:yiki1/core/models/couponModel.dart';
 import 'package:yiki1/core/models/getAddressModel.dart';
 import 'package:yiki1/core/models/paymentModel.dart';
@@ -44,9 +45,10 @@ class CompleteOrderCubit extends Cubit<CompleteOrderState> {
       ),
     )
   ];
- var selectedAddress;
+ var selectedAddress=0;
   selectedAddress_(address){
     selectedAddress=address;
+    emit(SuccesState());
     print(selectedAddress);
   }
 
@@ -117,6 +119,7 @@ class CompleteOrderCubit extends Cubit<CompleteOrderState> {
       "source":"mobile"
     }
     ;
+    print("=========${selectedAddress.toString()}");
     Response response = await DioHelper.post("checkout", true, body: body);
     final data = response.data as Map<String, dynamic>;
     print("=======${data.toString()}");
@@ -125,7 +128,7 @@ class CompleteOrderCubit extends Cubit<CompleteOrderState> {
       // print("=======");
       paymentResponse = PaymentModel.fromJson(data);
       print(paymentResponse!.data!.order!.paymentMethod);
-      // print(addtoCartResponse!.data!.order!.items!.length);
+      // print(paymentResponse!.data!.order!.address);
 
       emit(SuccesState());
     } else {
@@ -160,7 +163,22 @@ class CompleteOrderCubit extends Cubit<CompleteOrderState> {
       Utils.showSnackBar(data["message"] ?? "Error");
     }
   }
-
+  CartModel?getCartResponse;
+  fetchCartItems()async{
+    emit(LoadingState());
+    Response? response=await DioHelper.get("get-cart");
+    final data=response!.data as Map<String,dynamic>;
+    print('data["status"] ${data["status"]}');
+    if(data["status"] == true){
+      emit(SuccesState());
+      getCartResponse=CartModel.fromJson(data);
+      print('getCartResponse ${getCartResponse?.toJson()}');
+    }else {
+      print('status not true');
+      emit(ErrorState());
+      Utils.showSnackBar(data['message'] ?? "Error  Data");
+    }
+  }
 
 
 

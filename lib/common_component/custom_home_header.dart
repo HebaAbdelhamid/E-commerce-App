@@ -1,7 +1,9 @@
+import 'package:firebase_messaging_platform_interface/src/remote_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconic/iconic.dart';
+import 'package:yiki1/core/helper/firebase_message.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/notification/notification_view.dart';

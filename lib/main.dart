@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/core/app_storage/app_storage.dart';
+import 'package:yiki1/core/helper/firebase_message.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:yiki1/features/auth/login/view.dart';
@@ -13,12 +15,15 @@ import 'package:yiki1/features/botton_navigation_bar/more/order%20_details/order
 import 'package:yiki1/features/botton_navigation_bar/more/return_orders/return_orders_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/shared_applicaton/shared_applicaton_view.dart';
 import 'package:yiki1/features/google_map/add_new_address/add_new_address_cubit.dart';
-import 'package:yiki1/features/google_map/add_new_address/add_new_address_view.dart';
 import 'package:yiki1/features/splash/splash_screen.dart';
+import 'package:yiki1/features/animation/welcome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseMessage().initNotification();
+  print("object");
 
   runApp(EasyLocalization(
     supportedLocales: [Locale('en', ''), Locale('ar', '')],
@@ -46,7 +51,7 @@ class YIKI extends StatelessWidget {
             create: (BuildContext context) => HomeCubit(),
           )
         ],
-        child: LoginPage(),
+        child: SplashScreen(),
       ),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,

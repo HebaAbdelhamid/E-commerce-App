@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconic/iconic.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/botton_navigation_bar/home/notification/notification_cubit.dart';
 
 class CustomNotficationItem extends StatelessWidget {
-  const CustomNotficationItem({
+   CustomNotficationItem(this. index, this. cubit, {
     super.key,
   });
-
+  int index;
+   NotificationCubit cubit;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,14 +35,14 @@ class CustomNotficationItem extends StatelessWidget {
           onPressed: () {},
         ),
         title: Text(
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          "${cubit.notificationRespone!.data!.items![index].body}",
           style: TextStyle(
             color: AppStyle.blackColor,
             fontSize: 13,
           ),
         ),
         subtitle: Text(
-          "2 mins ago".tr(),
+          "${cubit.notificationRespone!.data!.items![index].title }".tr(),
           style: TextStyle(
             color: AppStyle.greyColor,
             fontSize: 13,

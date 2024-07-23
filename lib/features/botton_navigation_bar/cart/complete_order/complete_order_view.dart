@@ -18,7 +18,7 @@ class ChooseAddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => CompleteOrderCubit()..getAddress(),
+        create: (BuildContext context) => CompleteOrderCubit()..getAddress()..fetchCartItems(),
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(

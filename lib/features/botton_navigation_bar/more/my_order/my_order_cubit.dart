@@ -95,16 +95,17 @@ class MyOrderCubit extends Cubit<MyOrderState> {
     emit(LoadingState());
     Response? response =
         await DioHelper.post("order/$id/cancel", true, body: body);
-    final data = response.data;
-    print(data);
+    final data = response.data as Map<String,dynamic>;
+    print(data.toString());
     if (data["status"] == 200) {
+      print("===========");
       orderResponse = OrderModel.fromJson(data);
       print(orderResponse!.data.toString());
       emit(SuccessState());
     } else {
       emit(ErrorState());
       print(data["message"]);
-      // Utils.showSnackBar(data['message'] ?? "Error  Data");
+      Utils.showSnackBar(data['message'] ?? "Error  Data");
     }
   }
 }

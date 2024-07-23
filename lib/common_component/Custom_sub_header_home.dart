@@ -18,7 +18,7 @@ class CustomSubHeaderHome extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width*.86,
+          width: MediaQuery.of(context).size.width*.88,
           child: CustomTextField(
             onTap: function,
             radius: 5,

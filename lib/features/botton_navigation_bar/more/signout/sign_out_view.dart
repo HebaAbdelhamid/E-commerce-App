@@ -72,7 +72,7 @@ class Sign_outPage extends StatelessWidget {
               InkWell(
                 onTap: (){
                   cubit.signOut();
-                  MagicRouter.navigateTo(LoginPage());
+                  MagicRouter.navigateAndPopAll(LoginPage());
                 },
                 child: CustomCategoryName(width: MediaQuery.of(context).size.width*.3, text: 'Signout'.tr(), color1: Colors.white,color2:AppStyle.redColor ,
                 ),

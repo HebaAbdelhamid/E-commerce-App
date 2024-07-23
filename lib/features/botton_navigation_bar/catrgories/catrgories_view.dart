@@ -6,12 +6,15 @@ import 'package:yiki1/common_component/custom_horizontal_category.dart';
 import 'package:yiki1/common_component/custom_loading.dart';
 import 'package:yiki1/core/router.dart';
 import 'package:yiki1/core/styles.dart';
+import 'package:yiki1/features/animation/categoryAnimation.dart';
+import 'package:yiki1/features/animation/welcome.dart';
 import 'package:yiki1/features/botton_navigation_bar/catrgories/catrgories_state.dart';
 import 'package:yiki1/features/botton_navigation_bar/catrgories/components/categories.dart';
 import 'category/category_view.dart';
 import 'catrgories_cubit.dart';
 
 class CatrgoriesPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,7 +26,9 @@ class CatrgoriesPage extends StatelessWidget {
         body: SafeArea(
           child: BlocBuilder<CatrgoriesCubit, CatrgoriesState>(
             builder: (context, state) {
-              return state is LoadingCatrgoriesState ? CustomLoading() :
+              final cubit =BlocProvider.of<CatrgoriesCubit>(context);
+
+              return state is LoadingCatrgoriesState ? WelcomeAnimation() :
                Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 28.0, horizontal: 20),

@@ -15,13 +15,22 @@ class CustomLastOrder extends StatelessWidget {
     return BlocBuilder<MyOrderCubit, MyOrderState>(
       builder: (context, state) {
         final cubit=BlocProvider.of<MyOrderCubit>(context);
-        return Column(children: [
-          SizedBox(height: 22,),
-          SizedBox(
-            height: 900,
-            child:  CustomOrderCanceled(cubit: cubit)
+        return SizedBox(
+          height: 1040,
 
-        )]);
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+              children: [
+            SizedBox(height: 22,),
+            SizedBox(
+              height: 1040,
+              child:  CustomOrderCanceled(cubit: cubit)
+
+          ),
+            SizedBox(height: 22,),
+
+          ]),
+        );
       },
     );
   }

@@ -44,11 +44,7 @@ class Account_settingPage extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  IconButton(
-                      onPressed: () {
-                        // imagePicker();
-                      },
-                      icon: Icon(Icons.voice_chat)),
+
                   Text(
                     "Account Settings".tr(),
                     style: TextStyle(

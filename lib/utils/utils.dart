@@ -123,7 +123,7 @@ abstract class Utils {
           return AlertDialog(
               content: PopupCardDetails3(
             text1:
-                "Your order has been successfully placed and is now in review."
+                ""
                     .tr(),
             text2: "Thank you for shopping with us".tr(),
             text1Color: AppStyle.lightBlackColor,

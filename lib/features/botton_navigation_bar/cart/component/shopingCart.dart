@@ -11,9 +11,7 @@ class ShoppingCart extends StatelessWidget {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         final cubit = BlocProvider.of<CartCubit>(context);
-        return cubit.getCartResponse!.data == null
-            ? Center(child: Text("No Poducts In Cart "))
-            : ListView.separated(
+        return  ListView.separated(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
@@ -33,7 +31,7 @@ class ShoppingCart extends StatelessWidget {
                   children: [
                     Container(
                       width: 60,
-                      height: MediaQuery.of(context).size.height * .22,
+                      height: MediaQuery.of(context).size.height * .2,
                       decoration: BoxDecoration(
                           color: AppStyle.primaryColor,
                           borderRadius: BorderRadius.circular(7)),
@@ -41,7 +39,7 @@ class ShoppingCart extends StatelessWidget {
                         children: [
                           TextButton(
                               onPressed: () {
-
+cubit.increamentCount(index);
                               },
                               child: const Text(
                                 "+",
@@ -49,10 +47,7 @@ class ShoppingCart extends StatelessWidget {
                                     fontSize: 20, color: Colors.white),
                               )),
                           Text(
-                            // cubit.getItemCount(int.parse(id)).toString(),
-                            cubit.getCartResponse!.data!.order!
-                                .items![index].quantity
-                                .toString(),
+                            cubit.getCount(index).toString(),
                             maxLines: 2, overflow: TextOverflow.ellipsis,
                             // cubit.getItemCount(itemId! ).toString(),
                             style: TextStyle(
@@ -60,9 +55,8 @@ class ShoppingCart extends StatelessWidget {
                           ),
                           TextButton(
                               onPressed: () {
-                                if (cubit.getItemCount(itemId) > 1)
-                                  cubit.decreament(itemId);
-                                print(cubit.getCartResponse!.data!.order!
+cubit.decrementCount(index)  ;
+print(cubit.getCartResponse!.data!.order!
                                     .items!.length);
                               },
                               child: const Text(
@@ -86,6 +80,7 @@ class ShoppingCart extends StatelessWidget {
                       id: int.parse(id),
                       function: () {
                         cubit.deleteCartItems(int.parse(itemId.toString()));
+                        cubit.fetchCartItems();
                       },
                     ),
                   ],

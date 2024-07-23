@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yiki1/common_component/Custom_sub_header_home.dart';
 import 'package:yiki1/common_component/custom_home_header.dart';
@@ -18,6 +19,7 @@ import 'package:yiki1/features/botton_navigation_bar/home/home_state.dart';
 import 'package:yiki1/features/botton_navigation_bar/home/product_search/product_search_view.dart';
 import 'package:yiki1/features/botton_navigation_bar/more/discount_counpons/discount_counpons_view.dart';
 import 'package:yiki1/features/new_offer/new_offer_view.dart';
+import 'package:yiki1/features/animation/welcome.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatelessWidget {
@@ -32,7 +34,7 @@ class HomePage extends StatelessWidget {
                 builder: (context, state) {
                   final cubit = BlocProvider.of<HomeCubit>(context);
                   return state is LoadingState
-                      ? CustomLoading()
+                      ? WelcomeAnimation()
                       : ListView(
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
@@ -41,17 +43,18 @@ class HomePage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomHomeHeader(),
+                                    CustomHomeHeader().animate()  .move( duration: 800.ms),
                                     const SizedBox(height: 10),
                                     CustomSubHeaderHome(
                                       function: () {
                                         MagicRouter.navigateTo(ProductSearchPage());
                                       },
-                                    ),
+                                    )
+                                        .animate() .move( duration: 800.ms),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    CustomCarouselSlider(),
+                                    CustomCarouselSlider().animate()  .move( duration: 800.ms),
                                     const SizedBox(
                                       height: 10,
                                     ),
@@ -71,14 +74,14 @@ class HomePage extends StatelessWidget {
                                                   color: AppStyle.blackColor,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 15),
-                                            ),
+                                            ).animate().fade(begin: 0.5),
                                             Text(
                                               "Discover Our Flash Sale".tr(),
                                               style: const TextStyle(
                                                   color: Color(0XFFA2A2A3),
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 12),
-                                            ),
+                                            ).animate().fade(end: 0.5),
                                           ],
                                         ),
                                         Container(
@@ -173,6 +176,8 @@ class HomePage extends StatelessWidget {
                                         InkWell(
                                           onTap: () {
                                             cubit.selectedIcon();
+                                            cubit.selectProducts_(0);
+
                                           },
                                           child: cubit.selected
                                               ? CustomNewArrival(
@@ -203,6 +208,7 @@ class HomePage extends StatelessWidget {
                                         InkWell(
                                             onTap: () {
                                               cubit.selectedIcon();
+                                              cubit.selectProducts_(1);
                                             },
                                             child: cubit.selected
                                                 ? CustomNewArrival(
@@ -237,7 +243,8 @@ class HomePage extends StatelessWidget {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                     Products(),
+                                    cubit.selectProducts==0?
+                                     Products():Products(),
                                   ]),
                             ]);
                 },
