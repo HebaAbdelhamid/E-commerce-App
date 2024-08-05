@@ -1,4 +1,4 @@
-# yuki1
+# E-commerce App
 
 A new Flutter project.
 
